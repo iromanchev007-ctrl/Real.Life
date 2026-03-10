@@ -1708,7 +1708,7 @@ function renderAll() {
   // Phases
   document.querySelectorAll('.quest-phase').forEach((el, i) => {
     const st = S.phases[i] || 'locked';
-    el.className = 'quest-phase ' + (el.classList.contains('locked') ? 'locked' : st);
+    el.className = 'quest-phase ' + st;
     const map = { locked: 'ЗАБЛОК.', active: 'АКТИВНО', done: 'ПРОЙДЕНО' };
     const qs = el.querySelector('.qp-status');
     if (qs) qs.textContent = map[st] || 'ЗАБЛОК.';
@@ -1723,8 +1723,15 @@ function renderAll() {
 
 async function initUI() {
   load(); // сначала локально (быстро)
-  await cloudLoad(); // потом из облака (перезаписывает если свежее)
   checkDailyReset();
+  renderAll(); // показываем локальные данные сразу
+
+  // Грузим облако и обновляем UI если есть свежие данные
+  const loaded = await cloudLoad();
+  if (loaded) {
+    checkDailyReset(); // проверяем сброс уже с облачными данными
+    renderAll();
+  }
 
   function updateDays() {
     const samaraNow = getSamaraDate();
