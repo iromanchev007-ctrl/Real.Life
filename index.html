@@ -1048,7 +1048,7 @@ body::before {
   <div class="hud">
     <div class="hud-brand">
       ЦЕЛЬ: 1 000 000 ₽
-      <span>PERSONAL DASHBOARD · v1.0 · <span id="syncStatus" style="color:var(--muted);font-size:0.9em;">●</span></span>
+      <span>PERSONAL DASHBOARD · v1.0 · <span id="syncStatus" title="Нажми для синхронизации" onclick="manualSync()" style="color:var(--muted);font-size:0.9em;cursor:pointer;">●</span></span>
     </div>
     <div class="hud-right">
       <div class="hud-stat">
@@ -2076,6 +2076,15 @@ function spawnParticles(isAch) {
   }
 }
 
+function manualSync() {
+  const dot = document.getElementById('syncStatus');
+  if (dot) { dot.style.color = '#c8972a'; dot.title = 'Синхронизация...'; }
+  cloudLoad().then(loaded => {
+    if (loaded) { checkDailyReset(); renderAll(); notify('☁ СИНХРОНИЗИРОВАНО', 'Данные обновлены'); }
+    else notify('☁ НЕТ ДАННЫХ', 'Облако пустое или ошибка');
+  });
+}
+
 function notify(title, sub) {
   const wrap = document.getElementById('notif');
   const el = document.createElement('div');
@@ -2171,7 +2180,7 @@ function setupPWA() {
   // Register service worker (inline via blob)
   if ('serviceWorker' in navigator) {
     const swCode = `
-const CACHE = 'million-v1';
+const CACHE = 'million-v3';
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(['/'])).catch(() => {}));
   self.skipWaiting();
@@ -2181,7 +2190,21 @@ self.addEventListener('activate', e => {
   self.clients.claim();
 });
 self.addEventListener('fetch', e => {
-  e.respondWith(caches.match(e.request).then(r => r || fetch(e.request)).catch(() => caches.match(e.request)));
+  // Supabase и любые API-запросы — всегда в сеть, никогда не кэшировать
+  if (e.request.url.includes('supabase.co') || e.request.url.includes('/rest/') || e.request.method !== 'GET') {
+    e.respondWith(fetch(e.request));
+    return;
+  }
+  // Остальное: сначала сеть, при ошибке — кэш
+  e.respondWith(
+    fetch(e.request)
+      .then(res => {
+        const clone = res.clone();
+        caches.open(CACHE).then(c => c.put(e.request, clone));
+        return res;
+      })
+      .catch(() => caches.match(e.request))
+  );
 });
     `;
     const swBlob = new Blob([swCode], { type: 'application/javascript' });
