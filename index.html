@@ -17,7 +17,7 @@
 <!-- PWA Icons (inline SVG as data URI) -->
 <link rel="apple-touch-icon" id="pwa-icon-apple">
 <link rel="icon" type="image/svg+xml" id="pwa-icon-svg">
-<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=Rajdhani:wght@400;600;700;900&family=Oswald:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
 <style>
   @font-face {
     font-family: 'GoldSans';
@@ -57,7 +57,7 @@ body {
     radial-gradient(ellipse at 80% 100%, rgba(224,90,0,0.05) 0%, transparent 50%),
     repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(200,151,42,0.015) 3px, rgba(200,151,42,0.015) 4px);
   color: var(--cream);
-  font-family: 'Barlow Condensed', 'Rajdhani', sans-serif;
+  font-family: 'Barlow Condensed', 'Barlow Condensed', sans-serif;
   font-size: 16px;
   min-height: 100vh;
   overflow-x: hidden;
@@ -129,7 +129,7 @@ body::before {
 }
 .boot-sub { font-size: 13px; color: var(--muted); letter-spacing: 3px; }
 .boot-log {
-  font-family: 'Rajdhani', sans-serif;
+  font-family: 'Barlow Condensed', sans-serif;
   font-size: 14px;
   font-weight: 600;
   color: var(--gold);
@@ -578,29 +578,24 @@ body::before {
   clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 14px 100%, 0 calc(100% - 14px));
   user-select: none;
 }
-/* LOCKED — очень тусклые */
 .quest-phase.locked {
-  background: linear-gradient(135deg, #0c0a07, #090807);
-  border-color: #1a1408;
+  background: linear-gradient(135deg, #080604, #060402);
+  border-color: #1a1208;
   opacity: 0.38;
+  filter: brightness(0.6);
 }
-.quest-phase.locked:hover { opacity: 0.52; border-color: var(--gold-dim); transform: translateY(-2px); }
+.quest-phase.locked:hover { opacity: 0.5; filter: brightness(0.7); transform: none; }
 .quest-phase:not(.locked):hover { border-color: var(--gold-dim); transform: translateY(-2px); }
-
 .quest-phase.active {
   border-color: var(--gold);
   background: linear-gradient(135deg, #1f1808, #13100c);
   box-shadow: 0 0 24px rgba(200,151,42,0.15), inset 0 0 30px rgba(200,151,42,0.04);
-  opacity: 1;
 }
-/* DONE — тусклые с тёмно-зелёным оттенком */
 .quest-phase.done {
-  border-color: #1e3a1e;
-  background: linear-gradient(135deg, #081208, #060e06);
-  box-shadow: inset 0 0 30px rgba(0,80,0,0.15);
-  opacity: 0.55;
+  border-color: #2a4a2a;
+  background: linear-gradient(135deg, #0a1308, #080f06);
+  opacity: 0.7;
 }
-.quest-phase.done:hover { opacity: 0.7; }
 .qp-status {
   font-family: 'Bebas Neue', sans-serif;
   font-size: 12px;
@@ -609,9 +604,7 @@ body::before {
   margin-bottom: 8px;
 }
 .quest-phase.active .qp-status { color: var(--gold2); text-shadow: 0 0 8px var(--gold); }
-.quest-phase.done .qp-status { color: #3a7a3a; }
-.quest-phase.done .qp-name { color: #4a7a4a; }
-.quest-phase.done .qp-reward { color: #3a6a3a; }
+.quest-phase.done .qp-status { color: #4a8a4a; }
 .qp-num {
   font-family: 'Bebas Neue', sans-serif;
   font-size: 14px;
@@ -864,7 +857,147 @@ body::before {
   text-transform: uppercase;
 }
 
-/* ── FLICKER ── */
+/* ── EFFECTS ── */
+#center-popup {
+  position: fixed; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  z-index: 20000; pointer-events: none;
+}
+.center-msg {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(28px, 5vw, 52px);
+  color: var(--gold2);
+  letter-spacing: 6px;
+  text-align: center;
+  text-shadow: 0 0 30px var(--gold), 0 0 60px rgba(200,151,42,0.5);
+  padding: 20px 40px;
+  background: rgba(13,11,8,0.85);
+  border: 1px solid var(--gold);
+  border-top: 3px solid var(--gold2);
+  clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 20px 100%, 0 calc(100% - 20px));
+  animation: popup-in 0.35s cubic-bezier(0.2,1.4,0.5,1) forwards;
+}
+.center-msg.ach-msg {
+  color: var(--orange2);
+  border-color: var(--orange2);
+  border-top-color: var(--gold2);
+  text-shadow: 0 0 30px var(--orange), 0 0 60px rgba(224,90,0,0.5);
+  font-size: clamp(32px, 6vw, 60px);
+}
+@keyframes popup-in {
+  0%   { opacity: 0; transform: scale(0.6) translateY(20px); }
+  70%  { opacity: 1; transform: scale(1.05) translateY(-4px); }
+  100% { opacity: 1; transform: scale(1) translateY(0); }
+}
+@keyframes popup-out {
+  0%   { opacity: 1; transform: scale(1); }
+  100% { opacity: 0; transform: scale(1.1) translateY(-16px); }
+}
+#screen-flash {
+  position: fixed; inset: 0;
+  pointer-events: none; z-index: 19999;
+  opacity: 0;
+}
+@keyframes flash-task {
+  0%   { opacity: 0.18; background: radial-gradient(ellipse at center, rgba(200,151,42,0.3), transparent 70%); }
+  100% { opacity: 0; }
+}
+@keyframes flash-ach {
+  0%   { opacity: 0.4;  background: radial-gradient(ellipse at center, rgba(255,123,26,0.45), rgba(200,151,42,0.2) 50%, transparent 80%); }
+  50%  { opacity: 0.25; }
+  100% { opacity: 0; }
+}
+.particle {
+  position: fixed;
+  pointer-events: none;
+  z-index: 19998;
+  font-size: 20px;
+  animation: particle-fly 1.2s ease-out forwards;
+}
+@keyframes particle-fly {
+  0%   { opacity: 1; transform: translate(0,0) scale(1) rotate(0deg); }
+  100% { opacity: 0; transform: translate(var(--tx), var(--ty)) scale(0.3) rotate(var(--tr)); }
+}
+/* ══════════════════════════════════
+   MOBILE RESPONSIVE
+══════════════════════════════════ */
+@media (max-width: 600px) {
+  .wrap { padding: 12px 10px 80px; }
+
+  /* HUD */
+  .hud {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 12px 14px;
+    clip-path: none;
+  }
+  .hud-brand { font-size: 18px; letter-spacing: 2px; }
+  .hud-right { gap: 16px; width: 100%; justify-content: space-between; }
+  .hud-stat-val { font-size: 20px; }
+  .hud-stat-label { font-size: 10px; }
+
+  /* Banner */
+  .hero { gap: 12px; }
+  .char-card { padding: 16px 14px; clip-path: none; }
+  .char-avatar { font-size: 44px; }
+  .char-name { font-size: 18px; letter-spacing: 2px; }
+  .quest-card { padding: 16px 14px; clip-path: none; }
+  .days-big { font-size: clamp(48px, 14vw, 72px); }
+  .quest-title { font-size: clamp(18px, 5vw, 28px); }
+
+  /* Progress */
+  .main-progress-wrap { padding: 14px 14px; clip-path: none; }
+  .mp-header { flex-wrap: wrap; gap: 4px; }
+  .mp-milestones { display: none; }
+
+  /* Phases */
+  .quests-grid { grid-template-columns: 1fr; }
+  .quest-phase { clip-path: none; }
+
+  /* Tasks */
+  .task-panel { clip-path: none; }
+  .task-item { clip-path: none; }
+  .task-text { font-size: 14px; }
+
+  /* Achievements */
+  .ach-grid { grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 8px; }
+  .ach-item { padding: 12px 8px; clip-path: none; }
+  .ach-icon { font-size: 22px; }
+  .ach-name { font-size: 11px; }
+  .ach-desc { font-size: 10px; }
+
+  /* Log */
+  .log-panel { clip-path: none; padding: 14px; }
+  .log-input-row { flex-direction: column; gap: 8px; }
+  .log-btn { width: 100%; text-align: center; }
+
+  /* Notif */
+  #notif { top: 10px; right: 10px; left: 10px; }
+  .notif-item { min-width: unset; width: 100%; clip-path: none; }
+
+  /* Center popup */
+  .center-msg { font-size: clamp(18px, 5vw, 28px); padding: 14px 20px; letter-spacing: 2px; clip-path: none; }
+
+  /* Gold inputs */
+  .gold-section { clip-path: none; }
+  .gold-input { font-size: 14px; }
+
+  /* Section titles */
+  .section-title { font-size: 18px; letter-spacing: 3px; }
+
+  /* Boot */
+  .boot-bar-wrap { width: 90vw; }
+  .boot-log { width: 90vw; }
+}
+
+@media (min-width: 601px) and (max-width: 900px) {
+  .wrap { padding: 16px 16px 60px; }
+  .hud-right { gap: 20px; }
+  .quests-grid { grid-template-columns: 1fr 1fr; }
+  .ach-grid { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); }
+}
+
 @keyframes flicker {
   0%, 95%, 100% { opacity: 1; }
   96% { opacity: 0.85; }
@@ -888,6 +1021,8 @@ body::before {
 
 <!-- NOTIFICATIONS -->
 <div id="notif"></div>
+<div id="center-popup"></div>
+<div id="screen-flash"></div>
 
 <!-- BOOT SCREEN -->
 <div id="boot">
@@ -895,17 +1030,17 @@ body::before {
   <div class="boot-title">ЦЕЛЬ: 1 000 000 ₽<br><span style="font-size:0.6em;color:var(--muted);letter-spacing:4px;">PERSONAL EDITION v1.0</span></div>
   <div class="boot-log" id="boot-log"></div>
   <div class="boot-bar-wrap"><div class="boot-bar" id="bootBar"></div></div>
-  <div class="boot-sub" style="margin-top:12px;">ЗАГРУЗКА СОХРАНЕНИЯ...</div>
+  <div class="boot-sub" style="margin-top:14px;">ЗАГРУЗКА СОХРАНЕНИЯ...</div>
 </div>
 
 <!-- MAIN -->
 <div class="wrap">
 
   <!-- TOP BANNER -->
-<div style="text-align:center; padding: 24px 24px 20px; border-bottom: 2px solid var(--gold-dim); margin-bottom: 0; background: linear-gradient(180deg, #1a1208 0%, var(--bg) 100%); position: relative; overflow: hidden;">
+<div style="text-align:center; padding: 24px 24px 20px; border-bottom: 2px solid var(--gold-dim); margin-bottom: 0; background: linear-gradient(180deg, #1a1208 0%, var(--bg) 100%); position:relative; overflow:hidden;">
   <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%, rgba(200,151,42,0.1) 0%, transparent 70%);pointer-events:none;"></div>
   <div style="font-family:'Bebas Neue',sans-serif; font-size:clamp(18px,4vw,42px); color:var(--gold2); text-shadow: 0 0 30px rgba(200,151,42,0.6), 0 0 60px rgba(200,151,42,0.2); letter-spacing:8px; position:relative;">
-    1 МИЛЛИОН РУБЛЕЙ К 20 ГОДАМ
+    1 миллион рублей к 20 годам
   </div>
 </div>
 
@@ -939,8 +1074,8 @@ body::before {
     </div>
     <div class="mp-track">
       <div class="mp-fill" id="mpFill" style="width:0%"></div>
-      <div class="mp-pct" id="mpPct">0%</div>
     </div>
+    <div class="mp-pct" id="mpPct">0%</div>
     <div class="mp-milestones">
       <div class="mp-milestone" data-val="0">СТАРТ</div>
       <div class="mp-milestone" data-val="100000">100К</div>
@@ -994,7 +1129,7 @@ body::before {
       </div>
       <div class="stat-row">
         <div class="stat-header"><span>ОФЛАЙН ЗАРАБОТОК</span><span id="statOffline">0/500</span></div>
-        <div class="stat-track"><div class="stat-fill" id="fillOffline" style="width:0%;background:var(--orange);box-shadow:0 0 8px var(--orange)"></div></div>
+        <div class="stat-track"><div class="stat-fill" id="fillOffline" style="width:0%;background:var(--orange)"></div></div>
       </div>
       <div class="stat-row">
         <div class="stat-header"><span>ЗНАКОМСТВА</span><span id="statSocial">0/500</span></div>
@@ -1006,7 +1141,7 @@ body::before {
     <div style="display:flex;flex-direction:column;gap:16px;">
       <div class="quest-card">
         <div class="quest-tag">⚔ ЦЕЛЬ</div>
-        <div class="quest-title">КАПИТАЛ<br><span>1 000 000 ₽</span><br>ДО 20 ЛЕТ</div>
+        <div class="quest-title">КАПИТАЛ<br><span>1 000 000 ₽</span><br>К 20 ГОДАМ</div>
         <div class="quest-deadline">СЕГОДНЯ: <span id="todayDisplay">—</span></div>
         <div class="quest-deadline" style="margin-top:-20px;margin-bottom:20px;">ДЕДЛАЙН: 01.08.2027</div>
 
@@ -1036,8 +1171,8 @@ body::before {
       <div class="qp-status">АКТИВНО</div>
       <div class="qp-num">ФАЗА 1</div>
       <div class="qp-boss">🐛</div>
-      <div class="qp-name">ОНЛАЙН СТАРТ<br>+ РАБОТА</div>
-      <div class="qp-desc">Подработки. Изучение SMM/таргет/контент. Начало своего блога. Бесплатный клиент. Первый кейс. Первые деньги за услуги.</div>
+      <div class="qp-name">ФУНДАМЕНТ</div>
+      <div class="qp-desc">Замена быстрого дофамина на качественный. Подработки. Погружение в навык. Развитие блога. Первые клиенты.</div>
       <div class="qp-reward">📊 ИТОГ ФАЗЫ: 20–40К/МЕС</div>
     </div>
     <div class="quest-phase locked" onclick="cyclePhase(this)">
@@ -1066,33 +1201,37 @@ body::before {
       <div id="mainTasks">
         <div class="task-item" onclick="toggleTask(this)" data-disc="1">
           <div class="task-checkbox"></div>
-          <div class="task-text">Вспомнить цель</div>
+          <div class="task-text">Ранний подъём</div>
           <div class="task-xp" style="color:var(--gold2)">+1 XP</div>
         </div>
         <div class="task-item" onclick="toggleTask(this)" data-disc="1">
           <div class="task-checkbox"></div>
-          <div class="task-text">Подъём до 5:00</div>
+          <div class="task-text">Написать план на день</div>
           <div class="task-xp" style="color:var(--gold2)">+1 XP</div>
         </div>
         <div class="task-item" onclick="toggleTask(this)" data-skill="1">
           <div class="task-checkbox"></div>
           <div class="task-text">2 часа теории</div>
-          <div class="task-xp" style="color:#60c8f0">+1 XP</div>
+          <div class="task-xp" style="color:var(--gold2)">+1 XP</div>
         </div>
         <div class="task-item" onclick="toggleTask(this)" data-skill="1">
           <div class="task-checkbox"></div>
           <div class="task-text">1 час практики</div>
-          <div class="task-xp" style="color:#60c8f0">+1 XP</div>
+          <div class="task-xp" style="color:var(--gold2)">+1 XP</div>
         </div>
         <div class="task-item" onclick="toggleTask(this)" data-brand="1">
           <div class="task-checkbox"></div>
           <div class="task-text">Опубликовать 1 рилс</div>
-          <div class="task-xp" style="color:var(--orange2)">+1 XP</div>
+          <div class="task-xp" style="color:var(--gold2)">+1 XP</div>
         </div>
         <div class="task-item" onclick="toggleTask(this)" data-fit="1">
           <div class="task-checkbox"></div>
           <div class="task-text">Тренировка 1 час</div>
-          <div class="task-xp" style="color:var(--red2)">+1 XP</div>
+          <div class="task-xp" style="color:var(--gold2)">+1 XP</div>
+        </div>
+        <div style="margin-top:10px; padding:10px 10px; background:rgba(200,151,42,0.06); border:1px solid var(--gold-dim); clip-path:polygon(4px 0%,100% 0%,calc(100% - 4px) 100%,0% 100%);">
+          <div style="font-family:'Bebas Neue',sans-serif; font-size:13px; color:var(--gold); letter-spacing:2px;;">🎁 6/6 ЗАДАНИЙ = НАГРАДА ДНЯ</div>
+          <div style="font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:13px; color:var(--muted); margin-top:3px; letter-spacing:0.5px;">30 минут рилсов · сладкое</div>
         </div>
       </div>
     </div>
@@ -1102,7 +1241,7 @@ body::before {
         <div class="task-item" onclick="toggleTask(this)" data-brand="1">
           <div class="task-checkbox"></div>
           <div class="task-text">Опубликовать 1 пост</div>
-          <div class="task-xp" style="color:var(--orange2)">+1 XP</div>
+          <div class="task-xp" style="color:var(--gold2)">+1 XP</div>
         </div>
         <div class="task-item" onclick="toggleTask(this)" data-sales="1">
           <div class="task-checkbox"></div>
@@ -1117,17 +1256,17 @@ body::before {
         <div class="task-item" onclick="toggleTask(this)" data-offline="1">
           <div class="task-checkbox"></div>
           <div class="task-text">Заработать 1000 рублей</div>
-          <div class="task-xp" style="color:var(--orange2)">+1 XP</div>
+          <div class="task-xp" style="color:var(--gold2)">+1 XP</div>
         </div>
         <div class="task-item" onclick="toggleTask(this)" data-offline="1">
           <div class="task-checkbox"></div>
           <div class="task-text">Продать предмет</div>
-          <div class="task-xp" style="color:var(--orange2)">+1 XP</div>
+          <div class="task-xp" style="color:var(--gold2)">+1 XP</div>
         </div>
         <div class="task-item" onclick="toggleTask(this)" data-social="1">
           <div class="task-checkbox"></div>
           <div class="task-text">Поговорить с незнакомым человеком</div>
-          <div class="task-xp" style="color:#60c8f0">+1 XP</div>
+          <div class="task-xp" style="color:var(--gold2)">+1 XP</div>
         </div>
         <div class="task-item" onclick="toggleTask(this)" data-disc="1" data-brand="1">
           <div class="task-checkbox"></div>
@@ -1137,7 +1276,7 @@ body::before {
         <div class="task-item" onclick="toggleTask(this)" data-brand="1">
           <div class="task-checkbox"></div>
           <div class="task-text">Опубликовать 1 видео на Ютуб</div>
-          <div class="task-xp" style="color:var(--orange2)">+1 XP</div>
+          <div class="task-xp" style="color:var(--gold2)">+1 XP</div>
         </div>
       </div>
     </div>
@@ -1145,6 +1284,9 @@ body::before {
 
   <!-- ACHIEVEMENTS -->
   <div class="section-title">ДОСТИЖЕНИЯ</div>
+
+  <!-- ГРУППА 1: НАЧАЛО -->
+  <div style="font-family:'Bebas Neue',sans-serif; font-size:13px; color:var(--orange2); letter-spacing:5px; padding:18px 4px 10px; border-bottom:1px solid var(--gold-dim); margin-bottom:12px; text-shadow:0 0 10px var(--orange);">НАЧАЛО</div>
   <div class="ach-grid" id="achGrid">
     <div class="ach-item" onclick="toggleAch(this)">
       <span class="ach-icon">🎯</span>
@@ -1162,24 +1304,9 @@ body::before {
       <div class="ach-desc">Куплено оборудование для съёмки</div>
     </div>
     <div class="ach-item" onclick="toggleAch(this)">
-      <span class="ach-icon">📚</span>
-      <div class="ach-name">СТУДЕНТ</div>
-      <div class="ach-desc">30 дней игры</div>
-    </div>
-    <div class="ach-item" onclick="toggleAch(this)">
-      <span class="ach-icon">🤝</span>
-      <div class="ach-name">ПЕРВЫЙ КОНТАКТ</div>
-      <div class="ach-desc">Первые переговоры с клиентом</div>
-    </div>
-    <div class="ach-item" onclick="toggleAch(this)">
-      <span class="ach-icon">💼</span>
-      <div class="ach-name">КЛИЕНТ №1</div>
-      <div class="ach-desc">Первый бесплатный клиент</div>
-    </div>
-    <div class="ach-item" onclick="toggleAch(this)">
-      <span class="ach-icon">📨</span>
-      <div class="ach-name">ХОЛОДНЫЙ СТАРТ</div>
-      <div class="ach-desc">Написать 100 клиентам</div>
+      <span class="ach-icon">🔍</span>
+      <div class="ach-name">АНАЛИЗ</div>
+      <div class="ach-desc">Разобрать 50 рилсов</div>
     </div>
     <div class="ach-item" onclick="toggleAch(this)">
       <span class="ach-icon">📦</span>
@@ -1187,24 +1314,74 @@ body::before {
       <div class="ach-desc">Продать все товарные остатки</div>
     </div>
     <div class="ach-item" onclick="toggleAch(this)">
-      <span class="ach-icon">🌟</span>
-      <div class="ach-name">ОТЗЫВ</div>
-      <div class="ach-desc">Первый отзыв от клиента</div>
+      <span class="ach-icon">👀</span>
+      <div class="ach-name">ПЕРВЫЕ ЗРИТЕЛИ</div>
+      <div class="ach-desc">Набрать 10к просмотров на рилсе</div>
+    </div>
+    <div class="ach-item" onclick="toggleAch(this)">
+      <span class="ach-icon">📱</span>
+      <div class="ach-name">КУПИТЬ АЙФОН</div>
+      <div class="ach-desc">Купить айфон на свои деньги</div>
+    </div>
+  </div>
+
+  <!-- ГРУППА 2: КЛИЕНТЫ -->
+  <div style="font-family:'Bebas Neue',sans-serif; font-size:13px; color:var(--orange2); letter-spacing:5px; padding:22px 4px 10px; border-bottom:1px solid var(--gold-dim); margin-bottom:12px; text-shadow:0 0 10px var(--orange);">КЛИЕНТЫ</div>
+  <div class="ach-grid">
+    <div class="ach-item" onclick="toggleAch(this)">
+      <span class="ach-icon">🤝</span>
+      <div class="ach-name">ПЕРВЫЙ КОНТАКТ</div>
+      <div class="ach-desc">Первые переговоры с клиентом</div>
+    </div>
+    <div class="ach-item" onclick="toggleAch(this)">
+      <span class="ach-icon">📨</span>
+      <div class="ach-name">ХОЛОДНЫЙ СТАРТ</div>
+      <div class="ach-desc">Написать 100 клиентам</div>
+    </div>
+    <div class="ach-item" onclick="toggleAch(this)">
+      <span class="ach-icon">💼</span>
+      <div class="ach-name">КЛИЕНТ №1</div>
+      <div class="ach-desc">Первый бесплатный клиент</div>
     </div>
     <div class="ach-item" onclick="toggleAch(this)">
       <span class="ach-icon">📋</span>
       <div class="ach-name">ПЕРВЫЙ КЕЙС</div>
-      <div class="ach-desc">Оформить первый кейс для портфолио</div>
+      <div class="ach-desc">Оформить первый кейс + отзыв</div>
     </div>
     <div class="ach-item" onclick="toggleAch(this)">
-      <span class="ach-icon">💸</span>
-      <div class="ach-name">ПЕРВЫЙ ОНЛАЙН ЗАРАБОТОК</div>
-      <div class="ach-desc">Первые деньги на услугах</div>
+      <span class="ach-icon">💰</span>
+      <div class="ach-name">ПЕРВЫЙ ПЛАТЁЖ</div>
+      <div class="ach-desc">Первый платный клиент</div>
+    </div>
+    <div class="ach-item" onclick="toggleAch(this)">
+      <span class="ach-icon">🤝</span>
+      <div class="ach-name">РЕАЛЬНОСТЬ</div>
+      <div class="ach-desc">Выйти на клиента через живые переговоры</div>
+    </div>
+    <div class="ach-item" onclick="toggleAch(this)">
+      <span class="ach-icon">📢</span>
+      <div class="ach-name">ПЕРВАЯ РЕКЛАМА</div>
+      <div class="ach-desc">Потратить 10к рублей на рекламу</div>
     </div>
     <div class="ach-item" onclick="toggleAch(this)">
       <span class="ach-icon">📂</span>
       <div class="ach-name">ДЕСЯТОК КЕЙСОВ</div>
       <div class="ach-desc">Оформить 10 кейсов для портфолио</div>
+    </div>
+    <div class="ach-item" onclick="toggleAch(this)">
+      <span class="ach-icon">💎</span>
+      <div class="ach-name">ДЕКОМПОЗИЦИЯ</div>
+      <div class="ach-desc">Заработать 50к рублей с одной продажи</div>
+    </div>
+  </div>
+
+  <!-- ГРУППА 3: ЛИЧНЫЙ БРЕНД -->
+  <div style="font-family:'Bebas Neue',sans-serif; font-size:13px; color:var(--orange2); letter-spacing:5px; padding:22px 4px 10px; border-bottom:1px solid var(--gold-dim); margin-bottom:12px; text-shadow:0 0 10px var(--orange);">ЛИЧНЫЙ БРЕНД</div>
+  <div class="ach-grid">
+    <div class="ach-item" onclick="toggleAch(this)">
+      <span class="ach-icon">📅</span>
+      <div class="ach-name">ФЛЕШБЭК</div>
+      <div class="ach-desc">Выложить 30 рилсов за 30 дней</div>
     </div>
     <div class="ach-item" onclick="toggleAch(this)">
       <span class="ach-icon">🎥</span>
@@ -1222,6 +1399,11 @@ body::before {
       <div class="ach-desc">1000 подписчиков в Телеграм</div>
     </div>
     <div class="ach-item" onclick="toggleAch(this)">
+      <span class="ach-icon">⚡</span>
+      <div class="ach-name">10000 В ТЕЛЕГРАМ</div>
+      <div class="ach-desc">10 000 подписчиков в Телеграм</div>
+    </div>
+    <div class="ach-item" onclick="toggleAch(this)">
       <span class="ach-icon">📸</span>
       <div class="ach-name">1000 В INSTA</div>
       <div class="ach-desc">1000 подписчиков в Instagram</div>
@@ -1232,14 +1414,60 @@ body::before {
       <div class="ach-desc">10 000 подписчиков в Instagram</div>
     </div>
     <div class="ach-item" onclick="toggleAch(this)">
-      <span class="ach-icon">🤝</span>
-      <div class="ach-name">РЕАЛЬНОСТЬ</div>
-      <div class="ach-desc">Выйти на клиента через живые переговоры</div>
+      <span class="ach-icon">👑</span>
+      <div class="ach-name">100000 В INSTA</div>
+      <div class="ach-desc">100 000 подписчиков в Instagram</div>
+    </div>
+    <div class="ach-item" onclick="toggleAch(this)">
+      <span class="ach-icon">🎞️</span>
+      <div class="ach-name">ВСПОМНИЛ 2К16</div>
+      <div class="ach-desc">Снять первое видео на Youtube</div>
+    </div>
+    <div class="ach-item" onclick="toggleAch(this)">
+      <span class="ach-icon">🎙️</span>
+      <div class="ach-name">ЮТУБЕР</div>
+      <div class="ach-desc">Снять 10 видео на Youtube</div>
+    </div>
+    <div class="ach-item" onclick="toggleAch(this)">
+      <span class="ach-icon">📺</span>
+      <div class="ach-name">1000 В YOUTUBE</div>
+      <div class="ach-desc">1000 подписчиков на Youtube</div>
+    </div>
+    <div class="ach-item" onclick="toggleAch(this)">
+      <span class="ach-icon">🚀</span>
+      <div class="ach-name">10000 В YOUTUBE</div>
+      <div class="ach-desc">10 000 подписчиков на Youtube</div>
+    </div>
+    <div class="ach-item" onclick="toggleAch(this)">
+      <span class="ach-icon">👥</span>
+      <div class="ach-name">КОМАНДА</div>
+      <div class="ach-desc">Нанять первого помощника</div>
+    </div>
+  </div>
+
+  <!-- ГРУППА 4: ДЕНЬГИ И СРОКИ -->
+  <div style="font-family:'Bebas Neue',sans-serif; font-size:13px; color:var(--orange2); letter-spacing:5px; padding:22px 4px 10px; border-bottom:1px solid var(--gold-dim); margin-bottom:12px; text-shadow:0 0 10px var(--orange);">ДЕНЬГИ И СРОКИ</div>
+  <div class="ach-grid">
+    <div class="ach-item" onclick="toggleAch(this)">
+      <span class="ach-icon">📚</span>
+      <div class="ach-name">СТУДЕНТ</div>
+      <div class="ach-desc">30 дней игры</div>
     </div>
     <div class="ach-item" onclick="toggleAch(this)">
       <span class="ach-icon">🚀</span>
       <div class="ach-name">100К РУБЕЖ</div>
       <div class="ach-desc">Заработано 100 000 ₽</div>
+    </div>
+
+    <div class="ach-item" onclick="toggleAch(this)">
+      <span class="ach-icon">🏙️</span>
+      <div class="ach-name">ПЕРВЫЕ РЕЗУЛЬТАТЫ</div>
+      <div class="ach-desc">Капитал 200к. Награда: поездка в Москву</div>
+    </div>
+    <div class="ach-item" onclick="toggleAch(this)">
+      <span class="ach-icon">🎂</span>
+      <div class="ach-name">ИМЕНИННИК</div>
+      <div class="ach-desc">Исполнилось 19 лет</div>
     </div>
     <div class="ach-item" onclick="toggleAch(this)">
       <span class="ach-icon">📈</span>
@@ -1252,20 +1480,25 @@ body::before {
       <div class="ach-desc">Заработано 500 000 ₽</div>
     </div>
     <div class="ach-item" onclick="toggleAch(this)">
-      <span class="ach-icon">📱</span>
-      <div class="ach-name">КУПИТЬ АЙФОН</div>
-      <div class="ach-desc">Купить айфон на свои деньги</div>
+      <span class="ach-icon">📅</span>
+      <div class="ach-name">ГОД ПРОШЁЛ</div>
+      <div class="ach-desc">365 дней игры</div>
     </div>
     <div class="ach-item" onclick="toggleAch(this)">
-      <span class="ach-icon">📢</span>
-      <div class="ach-name">ПЕРВАЯ РЕКЛАМА</div>
-      <div class="ach-desc">Потратить 10к рублей на рекламу</div>
+      <span class="ach-icon">💯</span>
+      <div class="ach-name">ЛЕГЕНДАРНАЯ СОТКА</div>
+      <div class="ach-desc">Заработать 100к рублей за месяц</div>
     </div>
     <div class="ach-item" onclick="toggleAch(this)">
-      <span class="ach-icon">💬</span>
-      <div class="ach-name">СОЦИАЛЬНЫЙ РЕКОРД</div>
-      <div class="ach-desc">Познакомиться со 100 девушками за полгода</div>
+      <span class="ach-icon">🏆</span>
+      <div class="ach-name">МИЛЛИОНЕР</div>
+      <div class="ach-desc">ФИНАЛЬНЫЙ БОСС ПОВЕРЖЕН</div>
     </div>
+  </div>
+
+  <!-- ГРУППА 5: СПОРТ И ДЕВУШКИ -->
+  <div style="font-family:'Bebas Neue',sans-serif; font-size:13px; color:var(--orange2); letter-spacing:5px; padding:22px 4px 10px; border-bottom:1px solid var(--gold-dim); margin-bottom:12px; text-shadow:0 0 10px var(--orange);">СПОРТ И ДЕВУШКИ</div>
+  <div class="ach-grid">
     <div class="ach-item" onclick="toggleAch(this)">
       <span class="ach-icon">💪</span>
       <div class="ach-name">25 ПОДТЯГИВАНИЙ</div>
@@ -1277,24 +1510,19 @@ body::before {
       <div class="ach-desc">Пробежать 10 км</div>
     </div>
     <div class="ach-item" onclick="toggleAch(this)">
-      <span class="ach-icon">📅</span>
-      <div class="ach-name">ГОД ПРОШЁЛ</div>
-      <div class="ach-desc">365 дней игры</div>
+      <span class="ach-icon">💬</span>
+      <div class="ach-name">СОЦИАЛЬНЫЙ РЕКОРД</div>
+      <div class="ach-desc">Познакомиться со 100 девушками</div>
     </div>
     <div class="ach-item" onclick="toggleAch(this)">
-      <span class="ach-icon">💯</span>
-      <div class="ach-name">ЛЕГЕНДАРНАЯ СОТКА</div>
-      <div class="ach-desc">Заработать 100к рублей за месяц</div>
+      <span class="ach-icon">🤸</span>
+      <div class="ach-name">СТОЙКА НА РУКАХ</div>
+      <div class="ach-desc">Простоять 10 секунд на руках без стены</div>
     </div>
     <div class="ach-item" onclick="toggleAch(this)">
-      <span class="ach-icon">👥</span>
-      <div class="ach-name">КОМАНДА</div>
-      <div class="ach-desc">Первый помощник нанят</div>
-    </div>
-    <div class="ach-item" onclick="toggleAch(this)">
-      <span class="ach-icon">🏆</span>
-      <div class="ach-name">МИЛЛИОНЕР</div>
-      <div class="ach-desc">ФИНАЛЬНЫЙ БОСС ПОВЕРЖЕН</div>
+      <span class="ach-icon">🌹</span>
+      <div class="ach-name">ДОН ЖУАН</div>
+      <div class="ach-desc">Провести 5 свиданий за 7 дней</div>
     </div>
   </div>
 
@@ -1343,6 +1571,7 @@ async function cloudSave() {
   const dot = document.getElementById('syncStatus');
   if (dot) { dot.style.color = '#c8972a'; dot.title = 'Синхронизация...'; }
   try {
+    S._savedAt = Date.now(); // timestamp для merge
     const data = JSON.stringify(S);
     const res = await fetch(`${SUPA_URL}/rest/v1/savedata`, {
       method: 'POST',
@@ -1354,7 +1583,7 @@ async function cloudSave() {
       },
       body: JSON.stringify({ user_id: USER_ID, data })
     });
-    if (dot) { dot.style.color = res.ok ? '#4a8a4a' : '#cc2200'; dot.title = res.ok ? 'Синхронизировано' : 'Ошибка синхронизации'; }
+    if (dot) { dot.style.color = res.ok ? '#4a8a4a' : '#cc2200'; dot.title = res.ok ? 'Синхронизировано ✓' : 'Ошибка синхронизации'; }
   } catch(e) {
     if (dot) { dot.style.color = '#cc2200'; dot.title = 'Нет соединения'; }
     console.warn('Cloud save failed, using local only');
@@ -1372,12 +1601,15 @@ async function cloudLoad() {
     const rows = await res.json();
     if (rows && rows.length > 0 && rows[0].data) {
       const cloud = JSON.parse(rows[0].data);
-      // Merge: use cloud if it has more XP (more recent progress)
       const local = JSON.parse(localStorage.getItem('rpg_quest') || '{}');
-      const useCloud = (cloud.xp || 0) >= (local.xp || 0);
-      const merged = useCloud ? cloud : local;
+      // Используем более свежую версию по timestamp; если нет — по XP
+      const cloudTime = cloud._savedAt || 0;
+      const localTime = local._savedAt || 0;
+      const merged = cloudTime >= localTime ? cloud : local;
       Object.assign(S, merged);
       localStorage.setItem('rpg_quest', JSON.stringify(S));
+      const dot = document.getElementById('syncStatus');
+      if (dot) { dot.style.color = '#4a8a4a'; dot.title = 'Синхронизировано ✓'; }
       return true;
     }
   } catch(e) {
@@ -1394,10 +1626,11 @@ function load() {
 }
 
 function save() {
+  S._savedAt = Date.now();
   localStorage.setItem('rpg_quest', JSON.stringify(S));
-  // Debounce cloud save — не более 1 раза в 2 сек
+  // Debounce cloud save — не чаще 1 раза в 1.5 сек
   clearTimeout(syncTimeout);
-  syncTimeout = setTimeout(() => cloudSave(), 2000);
+  syncTimeout = setTimeout(() => cloudSave(), 1500);
 }
 
 
@@ -1417,7 +1650,7 @@ function checkDailyReset() {
 // ── BOOT ──
 function boot() {
   const logs = [
-    '> ИНИЦИАЛИЗАЦИЯ СИСТЕМЫ...',
+    '> ЗАГРУЗКА СОХРАНЕНИЯ...',
     '> ЗАГРУЗКА ПЕРСОНАЖА...',
     '> ПРОВЕРКА ЦЕЛИ: 1 000 000 ₽...',
     '> РАСЧЁТ ДНЕЙ ДО ФИНАЛА...',
@@ -1461,6 +1694,33 @@ function updateAge() {
 }
 
 // ── INIT UI ──
+// Полный ре-рендер UI из состояния S (вызывается после cloud sync)
+function renderAll() {
+  // Tasks
+  document.querySelectorAll('.task-item').forEach((el, i) => {
+    el.classList.toggle('done', !!S.tasks[i]);
+  });
+  // Achs
+  document.querySelectorAll('.ach-item').forEach((el) => {
+    const key = el.querySelector('.ach-name').textContent.trim();
+    el.classList.toggle('unlocked', !!S.achs[key]);
+  });
+  // Phases
+  document.querySelectorAll('.quest-phase').forEach((el, i) => {
+    const st = S.phases[i] || 'locked';
+    el.className = 'quest-phase ' + (el.classList.contains('locked') ? 'locked' : st);
+    const map = { locked: 'ЗАБЛОК.', active: 'АКТИВНО', done: 'ПРОЙДЕНО' };
+    const qs = el.querySelector('.qp-status');
+    if (qs) qs.textContent = map[st] || 'ЗАБЛОК.';
+  });
+  // Gold
+  if (S.gold) updateGold(S.gold, true);
+  // XP + stats
+  updateXP(S.xp || 0, true);
+  updateStats();
+  renderLog();
+}
+
 async function initUI() {
   load(); // сначала локально (быстро)
   await cloudLoad(); // потом из облака (перезаписывает если свежее)
@@ -1638,6 +1898,7 @@ function toggleTask(el) {
     notify(sign > 0 ? '⬆ LEVEL UP!' : '⬇ УРОВЕНЬ -1', 'Уровень системы ' + S.level);
   }
   updateXP(S.xp);
+  if (sign > 0) { flashScreen(false); spawnParticles(false); showCenterMsg('Лучший. Не слушай никого. Продолжай', false); }
   notify(sign > 0 ? '✓ ЗАДАНИЕ' : '✗ ОТМЕНЕНО', sign > 0 ? '+1 XP' : '-1 XP');
   updateStats();
   save();
@@ -1679,6 +1940,7 @@ function toggleAch(el) {
   if (newLevel !== S.level) { S.level = newLevel; notify(sign > 0 ? '⬆ LEVEL UP!' : '⬇ УРОВЕНЬ -1', 'Уровень системы ' + S.level); }
   updateXP(S.xp);
   updateStats();
+  if (sign > 0) { flashScreen(true); spawnParticles(true); showCenterMsg('Ты красавчик. Это разминка. Продолжай', true); }
   notify(sign > 0 ? '🏅 +10 XP' : '✗ ОТМЕНЕНО -10 XP', key);
   save();
 }
@@ -1761,6 +2023,52 @@ function renderLog() {
 }
 
 // ── NOTIFICATIONS ──
+function showCenterMsg(text, isAch) {
+  const wrap = document.getElementById('center-popup');
+  wrap.innerHTML = '';
+  const el = document.createElement('div');
+  el.className = 'center-msg' + (isAch ? ' ach-msg' : '');
+  el.textContent = text;
+  wrap.appendChild(el);
+  setTimeout(() => {
+    el.style.animation = 'popup-out 0.4s ease forwards';
+    setTimeout(() => wrap.innerHTML = '', 400);
+  }, isAch ? 2200 : 1800);
+}
+
+function flashScreen(isAch) {
+  const f = document.getElementById('screen-flash');
+  f.style.animation = 'none';
+  f.offsetHeight;
+  f.style.animation = (isAch ? 'flash-ach' : 'flash-task') + ' 0.6s ease forwards';
+}
+
+function spawnParticles(isAch) {
+  const symbols = isAch
+    ? ['💰','⭐','🔥','✨','💥','🏅','⚡','👑']
+    : ['✨','⚡','💫','✓','★'];
+  const count = isAch ? 18 : 7;
+  for (let i = 0; i < count; i++) {
+    setTimeout(() => {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      p.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+      const cx = 40 + Math.random() * 20;
+      const cy = 40 + Math.random() * 20;
+      p.style.left = cx + 'vw';
+      p.style.top  = cy + 'vh';
+      const angle = Math.random() * Math.PI * 2;
+      const dist  = 80 + Math.random() * (isAch ? 200 : 80);
+      p.style.setProperty('--tx', Math.cos(angle) * dist + 'px');
+      p.style.setProperty('--ty', Math.sin(angle) * dist + 'px');
+      p.style.setProperty('--tr', (Math.random() * 720 - 360) + 'deg');
+      p.style.fontSize = (isAch ? 18 + Math.random() * 18 : 14 + Math.random() * 10) + 'px';
+      document.body.appendChild(p);
+      setTimeout(() => p.remove(), 1300);
+    }, i * (isAch ? 60 : 40));
+  }
+}
+
 function notify(title, sub) {
   const wrap = document.getElementById('notif');
   const el = document.createElement('div');
@@ -1772,11 +2080,21 @@ function notify(title, sub) {
 
 // ── START ──
 window.onload = () => {
-  // Smart migration: preserve XP/gold/tasks/log, only reset achs when achievement list changes
-  // No migration needed - achs stored by name, not index
   setupPWA();
   setTimeout(boot, 200);
 };
+
+// Синхронизация при возврате на вкладку (телефон ↔ комп)
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'visible') {
+    cloudLoad().then(loaded => { if (loaded) { renderAll(); } });
+  }
+});
+
+// Сохранить перед закрытием
+window.addEventListener('beforeunload', () => {
+  if (syncTimeout) { clearTimeout(syncTimeout); cloudSave(); }
+});
 
 // ── PWA SETUP ──
 function setupPWA() {
