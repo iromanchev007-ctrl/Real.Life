@@ -913,7 +913,7 @@ body::before {
   <div class="hud">
     <div class="hud-brand">
       ЦЕЛЬ: 1 000 000 ₽
-      <span>PERSONAL DASHBOARD · v1.0</span>
+      <span>PERSONAL DASHBOARD · v1.0 · <span id="syncStatus" style="color:var(--muted);font-size:0.9em;">●</span></span>
     </div>
     <div class="hud-right">
       <div class="hud-stat">
@@ -1331,6 +1331,61 @@ const S = {
   lastTaskDate: ''
 };
 
+
+// ── SUPABASE SYNC ──
+const SUPA_URL = 'https://lynkjyxrbukzejvpsnjn.supabase.co';
+const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imx5bmtqeXhyYnVremVqdnBzbmpuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMwOTg5NTEsImV4cCI6MjA4ODY3NDk1MX0.e9_bxRQ_Nj6Q3rreJqG3drp6EDoopZmh6zp_sZuPX9c';
+const USER_ID = 'ilya'; // единственный пользователь
+
+let syncTimeout = null;
+
+async function cloudSave() {
+  const dot = document.getElementById('syncStatus');
+  if (dot) { dot.style.color = '#c8972a'; dot.title = 'Синхронизация...'; }
+  try {
+    const data = JSON.stringify(S);
+    const res = await fetch(`${SUPA_URL}/rest/v1/savedata`, {
+      method: 'POST',
+      headers: {
+        'apikey': SUPA_KEY,
+        'Authorization': 'Bearer ' + SUPA_KEY,
+        'Content-Type': 'application/json',
+        'Prefer': 'resolution=merge-duplicates'
+      },
+      body: JSON.stringify({ user_id: USER_ID, data })
+    });
+    if (dot) { dot.style.color = res.ok ? '#4a8a4a' : '#cc2200'; dot.title = res.ok ? 'Синхронизировано' : 'Ошибка синхронизации'; }
+  } catch(e) {
+    if (dot) { dot.style.color = '#cc2200'; dot.title = 'Нет соединения'; }
+    console.warn('Cloud save failed, using local only');
+  }
+}
+
+async function cloudLoad() {
+  try {
+    const res = await fetch(`${SUPA_URL}/rest/v1/savedata?user_id=eq.${USER_ID}&select=data`, {
+      headers: {
+        'apikey': SUPA_KEY,
+        'Authorization': 'Bearer ' + SUPA_KEY
+      }
+    });
+    const rows = await res.json();
+    if (rows && rows.length > 0 && rows[0].data) {
+      const cloud = JSON.parse(rows[0].data);
+      // Merge: use cloud if it has more XP (more recent progress)
+      const local = JSON.parse(localStorage.getItem('rpg_quest') || '{}');
+      const useCloud = (cloud.xp || 0) >= (local.xp || 0);
+      const merged = useCloud ? cloud : local;
+      Object.assign(S, merged);
+      localStorage.setItem('rpg_quest', JSON.stringify(S));
+      return true;
+    }
+  } catch(e) {
+    console.warn('Cloud load failed, using local');
+  }
+  return false;
+}
+
 function load() {
   try {
     const saved = JSON.parse(localStorage.getItem('rpg_quest') || '{}');
@@ -1340,7 +1395,11 @@ function load() {
 
 function save() {
   localStorage.setItem('rpg_quest', JSON.stringify(S));
+  // Debounce cloud save — не более 1 раза в 2 сек
+  clearTimeout(syncTimeout);
+  syncTimeout = setTimeout(() => cloudSave(), 2000);
 }
+
 
 function todayStr() {
   return getSamaraDate().toLocaleDateString('ru-RU');
@@ -1402,8 +1461,9 @@ function updateAge() {
 }
 
 // ── INIT UI ──
-function initUI() {
-  load();
+async function initUI() {
+  load(); // сначала локально (быстро)
+  await cloudLoad(); // потом из облака (перезаписывает если свежее)
   checkDailyReset();
 
   function updateDays() {
