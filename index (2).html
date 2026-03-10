@@ -1,0 +1,2065 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>MILLION</title>
+
+<!-- PWA -->
+<meta name="application-name" content="MILLION">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="MILLION">
+<meta name="theme-color" content="#0d0b08">
+<meta name="mobile-web-app-capable" content="yes">
+<link rel="manifest" id="pwa-manifest">
+
+<!-- PWA Icons (inline SVG as data URI) -->
+<link rel="apple-touch-icon" id="pwa-icon-apple">
+<link rel="icon" type="image/svg+xml" id="pwa-icon-svg">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  @font-face {
+    font-family: 'GoldSans';
+    src: local('Gold Sans'), local('GoldSans');
+    font-weight: normal;
+  }
+</style>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700;900&family=Rajdhani:wght@500;600;700&display=swap');
+
+:root {
+  --bg:        #0d0b08;
+  --bg2:       #13100c;
+  --bg3:       #1a1510;
+  --border:    #3a2e1e;
+  --gold:      #c8972a;
+  --gold2:     #f0c040;
+  --gold-dim:  #6b4f15;
+  --orange:    #e05a00;
+  --orange2:   #ff7b1a;
+  --red:       #cc1a1a;
+  --red2:      #ff3030;
+  --cream:     #f5e8c8;
+  --silver:    #a0a8b0;
+  --dark-gold: #2a1f0a;
+  --muted:     #6a5a3a;
+  --white:     #fff8ee;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  background-image:
+    radial-gradient(ellipse at 20% 0%, rgba(200,151,42,0.07) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 100%, rgba(224,90,0,0.05) 0%, transparent 50%),
+    repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(200,151,42,0.015) 3px, rgba(200,151,42,0.015) 4px);
+  color: var(--cream);
+  font-family: 'Barlow Condensed', 'Barlow Condensed', sans-serif;
+  font-size: 16px;
+  min-height: 100vh;
+  overflow-x: hidden;
+  cursor: default;
+}
+
+/* ── DIAGONAL TEXTURE OVERLAY ── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    -45deg,
+    transparent,
+    transparent 4px,
+    rgba(200,151,42,0.012) 4px,
+    rgba(200,151,42,0.012) 5px
+  );
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* ── GLOW UTILS ── */
+.glow-gold   { text-shadow: 0 0 10px var(--gold2), 0 0 30px var(--gold); }
+.glow-orange { text-shadow: 0 0 8px var(--orange2), 0 0 20px var(--orange); }
+.glow-red    { text-shadow: 0 0 8px var(--red2); }
+.glow-silver { text-shadow: 0 0 6px var(--silver); }
+.box-glow    { box-shadow: 0 0 0 1px var(--gold), 0 0 20px rgba(200,151,42,0.2); }
+
+.pixel { font-family: 'Bebas Neue', sans-serif; letter-spacing: 2px; }
+.vt    { font-family: 'Barlow Condensed', sans-serif; font-weight: 600; }
+
+/* ── WRAPPER ── */
+.wrap {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 24px 16px 60px;
+}
+
+/* ── BOOT SCREEN ── */
+#boot {
+  position: fixed; inset: 0;
+  background: #050402;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  z-index: 10000;
+  transition: opacity 0.6s;
+}
+#boot.hide { opacity: 0; pointer-events: none; }
+
+.boot-logo {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(36px, 8vw, 80px);
+  letter-spacing: 8px;
+  color: var(--gold2);
+  text-shadow: 0 0 40px var(--gold), 0 0 80px rgba(200,151,42,0.4);
+  margin-bottom: 8px;
+  text-transform: uppercase;
+}
+.boot-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: clamp(14px, 3vw, 22px);
+  font-weight: 700;
+  color: var(--orange2);
+  letter-spacing: 6px;
+  text-transform: uppercase;
+  margin-bottom: 40px;
+  text-shadow: 0 0 15px var(--orange);
+}
+.boot-sub { font-size: 13px; color: var(--muted); letter-spacing: 3px; }
+.boot-log {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--gold);
+  letter-spacing: 2px;
+  height: 120px; width: 360px;
+  overflow: hidden;
+  margin-bottom: 28px;
+  text-align: left;
+  opacity: 0.9;
+}
+.boot-bar-wrap {
+  width: 340px; height: 6px;
+  background: rgba(200,151,42,0.15);
+  border: 1px solid var(--gold-dim);
+  clip-path: polygon(6px 0%, 100% 0%, calc(100% - 6px) 100%, 0% 100%);
+}
+.boot-bar {
+  height: 100%; width: 0%;
+  background: linear-gradient(90deg, var(--gold-dim), var(--gold2));
+  box-shadow: 0 0 12px var(--gold);
+  transition: width 0.3s ease;
+}
+
+/* ── NOTIFICATIONS ── */
+#notif {
+  position: fixed; top: 20px; right: 20px;
+  z-index: 10001;
+  display: flex; flex-direction: column; gap: 8px;
+}
+.notif-item {
+  background: linear-gradient(135deg, #1a1208, #251a08);
+  border: 1px solid var(--gold);
+  border-left: 4px solid var(--gold2);
+  padding: 12px 18px;
+  min-width: 220px;
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%);
+  box-shadow: 0 4px 24px rgba(0,0,0,0.6), 0 0 20px rgba(200,151,42,0.15);
+  animation: slide-in 0.3s ease;
+}
+.notif-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 16px;
+  color: var(--gold2);
+  letter-spacing: 2px;
+}
+.notif-msg {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--cream);
+  opacity: 0.85;
+  letter-spacing: 1px;
+  margin-top: 2px;
+}
+@keyframes slide-in {
+  from { transform: translateX(100%); opacity: 0; }
+  to   { transform: translateX(0);    opacity: 1; }
+}
+@keyframes notif-in {
+  from { transform: translateX(120%); opacity: 0; }
+  to   { transform: translateX(0);    opacity: 1; }
+}
+
+/* ── HUD ── */
+.hud {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 24px;
+  background: linear-gradient(90deg, #1a1208, #1e1609, #1a1208);
+  border: 1px solid var(--gold-dim);
+  border-top: 3px solid var(--gold);
+  margin-bottom: 20px;
+  position: relative;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 16px 100%, 0 calc(100% - 16px));
+}
+.hud::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(90deg, transparent, transparent 60px, rgba(200,151,42,0.03) 60px, rgba(200,151,42,0.03) 61px);
+  pointer-events: none;
+}
+.hud-brand {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(18px, 3vw, 28px);
+  color: var(--gold2);
+  letter-spacing: 4px;
+  text-shadow: 0 0 20px rgba(200,151,42,0.5);
+}
+.hud-brand span {
+  display: block;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--muted);
+  letter-spacing: 3px;
+  margin-top: 2px;
+}
+.hud-right { display: flex; gap: 32px; align-items: center; }
+.hud-stat { text-align: center; }
+.hud-stat-val {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 26px;
+  color: var(--gold2);
+  letter-spacing: 2px;
+  line-height: 1;
+  text-shadow: 0 0 12px rgba(200,151,42,0.6);
+}
+.hud-stat-label {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--muted);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-top: 2px;
+}
+
+/* ── MAIN PROGRESS ── */
+.main-progress-wrap {
+  background: linear-gradient(135deg, #1a1208, #13100c);
+  border: 1px solid var(--gold-dim);
+  border-left: 4px solid var(--gold);
+  padding: 20px 24px;
+  margin-bottom: 20px;
+  clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 0 100%);
+}
+.mp-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+.mp-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 20px;
+  color: var(--gold);
+  letter-spacing: 4px;
+}
+.mp-value {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  color: var(--cream);
+  letter-spacing: 2px;
+}
+.mp-track {
+  height: 14px;
+  background: rgba(200,151,42,0.1);
+  border: 1px solid var(--gold-dim);
+  clip-path: polygon(6px 0%, 100% 0%, calc(100% - 6px) 100%, 0% 100%);
+  position: relative;
+  overflow: hidden;
+}
+.mp-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--gold-dim), var(--gold), var(--gold2));
+  box-shadow: 0 0 16px rgba(200,151,42,0.5);
+  transition: width 0.5s ease;
+  position: relative;
+}
+.mp-fill::after {
+  content: '';
+  position: absolute; right: 0; top: 0; bottom: 0; width: 3px;
+  background: var(--gold2);
+  box-shadow: 0 0 8px var(--gold2);
+}
+.mp-pct {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 13px;
+  color: var(--gold2);
+  letter-spacing: 2px;
+  text-align: right;
+  margin-top: 6px;
+  text-shadow: 0 0 8px var(--gold);
+}
+.mp-milestones {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8px;
+}
+.mp-milestone {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 12px;
+  color: var(--muted);
+  letter-spacing: 1px;
+}
+.mp-milestone.reached { color: var(--gold2); text-shadow: 0 0 6px var(--gold); }
+
+/* ── HERO GRID ── */
+.hero {
+  display: grid;
+  grid-template-columns: 360px 1fr;
+  gap: 16px;
+  margin-bottom: 20px;
+  align-items: start;
+}
+@media (max-width: 700px) { .hero { grid-template-columns: 1fr; } }
+
+/* ── CHARACTER CARD ── */
+.char-card {
+  background: linear-gradient(160deg, #1a1510, #0f0c08);
+  border: 1px solid var(--gold-dim);
+  border-top: 3px solid var(--gold);
+  padding: 24px 20px;
+  position: relative;
+  clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 20px 100%, 0 calc(100% - 20px));
+}
+.char-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold2), transparent);
+}
+
+.char-avatar {
+  font-size: 58px;
+  line-height: 1;
+  margin-bottom: 12px;
+  filter: none !important;
+  animation: none !important;
+  text-shadow: none !important;
+}
+.char-name {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 22px;
+  color: var(--gold2);
+  letter-spacing: 4px;
+  text-shadow: 0 0 16px rgba(200,151,42,0.4);
+  margin-bottom: 2px;
+}
+.char-age {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  color: var(--silver);
+  letter-spacing: 3px;
+  margin-bottom: 2px;
+  text-transform: uppercase;
+}
+.char-class {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 600;
+  font-size: 15px;
+  color: var(--orange2);
+  letter-spacing: 2px;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  text-shadow: 0 0 10px rgba(255,123,26,0.4);
+}
+
+/* ── XP SECTION ── */
+.xp-section { margin-bottom: 20px; }
+.xp-label {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 12px;
+  color: var(--muted);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.xp-track {
+  height: 10px;
+  background: rgba(200,151,42,0.1);
+  border: 1px solid var(--gold-dim);
+  clip-path: polygon(4px 0%, 100% 0%, calc(100% - 4px) 100%, 0% 100%);
+  position: relative;
+  overflow: hidden;
+}
+.xp-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--gold-dim), var(--gold2));
+  box-shadow: 0 0 10px var(--gold);
+  transition: width 0.4s ease;
+}
+.xp-text {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 12px;
+  color: var(--gold);
+  letter-spacing: 2px;
+  text-align: right;
+  margin-top: 4px;
+}
+
+/* ── STAT BARS ── */
+.stat-row { margin-bottom: 10px; }
+.stat-header {
+  display: flex;
+  justify-content: space-between;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  color: var(--silver);
+  margin-bottom: 4px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+.stat-track {
+  height: 7px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(200,151,42,0.2);
+  clip-path: polygon(3px 0%, 100% 0%, calc(100% - 3px) 100%, 0% 100%);
+  overflow: hidden;
+}
+.stat-fill {
+  height: 100%;
+  transition: width 0.4s ease;
+}
+.stat-fill.green   { background: linear-gradient(90deg, #1a6b00, #4ccc00); box-shadow: 0 0 6px #4ccc00; }
+.stat-fill.cyan    { background: linear-gradient(90deg, #004d7a, #00b4d8); box-shadow: 0 0 6px #00b4d8; }
+.stat-fill.purple  { background: linear-gradient(90deg, #4a0080, #a030ff); box-shadow: 0 0 6px #a030ff; }
+.stat-fill.yellow  { background: linear-gradient(90deg, var(--gold-dim), var(--gold2)); box-shadow: 0 0 6px var(--gold); }
+
+/* ── SECTION TITLE ── */
+.section-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 22px;
+  color: var(--gold);
+  letter-spacing: 6px;
+  text-transform: uppercase;
+  padding: 10px 0 10px 16px;
+  margin-bottom: 14px;
+  border-left: 4px solid var(--gold);
+  position: relative;
+}
+.section-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, var(--gold-dim), transparent);
+}
+
+/* ── QUEST CARD (right panel) ── */
+.quest-card {
+  background: linear-gradient(160deg, #1a1510, #0f0c08);
+  border: 1px solid var(--gold-dim);
+  border-right: 3px solid var(--gold);
+  padding: 24px 20px;
+  position: relative;
+  clip-path: polygon(20px 0, 100% 0, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0 100%, 0 20px);
+}
+.quest-tag {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 13px;
+  color: var(--orange2);
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  text-shadow: 0 0 10px var(--orange);
+}
+.quest-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(20px, 3.5vw, 36px);
+  color: var(--cream);
+  line-height: 1.2;
+  margin-bottom: 8px;
+  letter-spacing: 3px;
+}
+.quest-title span { color: var(--gold2); text-shadow: 0 0 16px var(--gold); }
+
+.quest-deadline {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--silver);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-bottom: 24px;
+}
+
+/* ── DAYS BIG ── */
+.days-big {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(60px, 10vw, 100px);
+  color: var(--gold2);
+  line-height: 1;
+  text-shadow: 0 0 40px rgba(200,151,42,0.5), 0 0 80px rgba(200,151,42,0.2);
+  letter-spacing: 4px;
+}
+.days-sub {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--muted);
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  margin-bottom: 24px;
+}
+
+/* ── GOLD SECTION ── */
+.gold-section {
+  background: rgba(200,151,42,0.06);
+  border: 1px solid var(--gold-dim);
+  border-top: 2px solid var(--gold);
+  padding: 16px;
+  clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+}
+.gold-label {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 14px;
+  color: var(--gold);
+  letter-spacing: 4px;
+  margin-bottom: 6px;
+}
+.gold-amount {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 32px;
+  color: var(--gold2);
+  text-shadow: 0 0 20px rgba(200,151,42,0.6);
+  letter-spacing: 2px;
+  margin-bottom: 10px;
+}
+.gold-input {
+  background: rgba(0,0,0,0.5);
+  border: 1px solid var(--gold-dim);
+  color: var(--cream);
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  letter-spacing: 2px;
+  padding: 8px 10px;
+  width: 100%;
+  outline: none;
+  clip-path: polygon(4px 0%, 100% 0%, calc(100% - 4px) 100%, 0% 100%);
+}
+.gold-input:focus { border-color: var(--gold); box-shadow: 0 0 10px rgba(200,151,42,0.3); }
+
+/* ── PHASES ── */
+.quests-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 14px;
+  margin-bottom: 24px;
+}
+.quest-phase {
+  background: linear-gradient(135deg, #13100c, #0f0c08);
+  border: 1px solid #2a2010;
+  padding: 20px;
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+  clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 14px 100%, 0 calc(100% - 14px));
+  user-select: none;
+}
+.quest-phase.locked {
+  background: linear-gradient(135deg, #080604, #060402);
+  border-color: #1a1208;
+  opacity: 0.38;
+  filter: brightness(0.6);
+}
+.quest-phase.locked:hover { opacity: 0.5; filter: brightness(0.7); transform: none; }
+.quest-phase:not(.locked):hover { border-color: var(--gold-dim); transform: translateY(-2px); }
+.quest-phase.active {
+  border-color: var(--gold);
+  background: linear-gradient(135deg, #1f1808, #13100c);
+  box-shadow: 0 0 24px rgba(200,151,42,0.15), inset 0 0 30px rgba(200,151,42,0.04);
+}
+.quest-phase.done {
+  border-color: #2a4a2a;
+  background: linear-gradient(135deg, #0a1308, #080f06);
+  opacity: 0.7;
+}
+.qp-status {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 12px;
+  letter-spacing: 4px;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+.quest-phase.active .qp-status { color: var(--gold2); text-shadow: 0 0 8px var(--gold); }
+.quest-phase.done .qp-status { color: #4a8a4a; }
+.qp-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 14px;
+  color: var(--orange2);
+  letter-spacing: 3px;
+  margin-bottom: 8px;
+}
+.qp-boss {
+  font-size: 36px;
+  margin-bottom: 8px;
+  filter: grayscale(1) opacity(0.5);
+  transition: filter 0.3s;
+}
+.quest-phase.active .qp-boss { filter: none; }
+.quest-phase.done .qp-boss { filter: none; opacity: 0.5; }
+.qp-name {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 18px;
+  color: var(--cream);
+  letter-spacing: 3px;
+  line-height: 1.3;
+  margin-bottom: 8px;
+}
+.qp-desc {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.5;
+  margin-bottom: 12px;
+  letter-spacing: 0.5px;
+}
+.qp-reward {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--gold);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+/* ── TASKS ── */
+.tasks-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+@media (max-width: 700px) { .tasks-grid { grid-template-columns: 1fr; } }
+
+.task-panel {
+  background: linear-gradient(135deg, #13100c, #0f0c08);
+  border: 1px solid var(--gold-dim);
+  border-top: 2px solid var(--gold);
+  padding: 20px;
+  clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 0 100%);
+}
+.task-panel-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 16px;
+  color: var(--gold);
+  letter-spacing: 4px;
+  margin-bottom: 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--gold-dim);
+}
+.task-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 9px 10px;
+  margin-bottom: 4px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all 0.15s;
+  clip-path: polygon(4px 0%, 100% 0%, calc(100% - 4px) 100%, 0% 100%);
+  user-select: none;
+}
+.task-item:hover { background: rgba(200,151,42,0.06); border-color: var(--gold-dim); }
+.task-item.done { background: rgba(200,151,42,0.08); border-color: var(--gold-dim); opacity: 0.55; }
+.task-checkbox {
+  width: 18px; height: 18px;
+  border: 2px solid var(--gold-dim);
+  flex-shrink: 0;
+  position: relative;
+  clip-path: polygon(3px 0%, 100% 0%, calc(100% - 3px) 100%, 0% 100%);
+  background: rgba(0,0,0,0.4);
+  transition: all 0.15s;
+}
+.task-item.done .task-checkbox {
+  background: var(--gold);
+  border-color: var(--gold2);
+  box-shadow: 0 0 8px var(--gold);
+}
+.task-item.done .task-checkbox::after {
+  content: '✓';
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 11px;
+  color: #000;
+  font-weight: 900;
+}
+.task-text {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 600;
+  font-size: 15px;
+  color: var(--cream);
+  flex: 1;
+  letter-spacing: 0.5px;
+}
+.task-item.done .task-text { text-decoration: line-through; color: var(--muted); }
+.task-xp {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 14px;
+  letter-spacing: 1px;
+  white-space: nowrap;
+}
+
+/* ── ACHIEVEMENTS ── */
+.ach-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 10px;
+  margin-bottom: 24px;
+}
+.ach-item {
+  background: linear-gradient(135deg, #13100c, #0a0806);
+  border: 1px solid #2a2010;
+  padding: 16px 12px;
+  text-align: center;
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.2s;
+  clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+  position: relative;
+}
+.ach-item:hover { border-color: var(--gold-dim); transform: translateY(-2px); }
+.ach-item.unlocked {
+  border-color: var(--gold);
+  background: linear-gradient(135deg, #1f1808, #130f06);
+  box-shadow: 0 0 16px rgba(200,151,42,0.2);
+}
+.ach-item.unlocked::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, transparent, var(--gold2), transparent);
+}
+.ach-icon {
+  font-size: 28px;
+  margin-bottom: 8px;
+  display: block;
+  filter: grayscale(1) opacity(0.35);
+  transition: filter 0.2s;
+}
+.ach-item.unlocked .ach-icon { filter: none; }
+.ach-name {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 12px;
+  color: var(--muted);
+  letter-spacing: 1.5px;
+  line-height: 1.4;
+  margin-bottom: 4px;
+}
+.ach-item.unlocked .ach-name { color: var(--gold2); text-shadow: 0 0 8px rgba(200,151,42,0.5); }
+.ach-desc {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 600;
+  font-size: 11px;
+  color: #3a3020;
+  line-height: 1.3;
+  letter-spacing: 0.3px;
+}
+.ach-item.unlocked .ach-desc { color: var(--silver); opacity: 0.8; }
+
+/* ── LOG ── */
+.log-panel {
+  background: linear-gradient(135deg, #13100c, #0f0c08);
+  border: 1px solid var(--gold-dim);
+  border-left: 4px solid var(--orange);
+  padding: 20px;
+  margin-bottom: 24px;
+  clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 0 100%);
+}
+.log-input-row { display: flex; gap: 10px; margin-bottom: 14px; }
+.log-input {
+  flex: 1;
+  background: rgba(0,0,0,0.5);
+  border: 1px solid var(--gold-dim);
+  border-bottom: 2px solid var(--gold-dim);
+  color: var(--cream);
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 600;
+  font-size: 15px;
+  letter-spacing: 1px;
+  padding: 10px 14px;
+  outline: none;
+  clip-path: polygon(4px 0%, 100% 0%, calc(100% - 4px) 100%, 0% 100%);
+}
+.log-input::placeholder { color: var(--muted); }
+.log-input:focus { border-color: var(--gold); }
+.log-btn {
+  background: linear-gradient(135deg, var(--gold-dim), #3a2a08);
+  border: 1px solid var(--gold);
+  color: var(--gold2);
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 16px;
+  letter-spacing: 3px;
+  padding: 10px 20px;
+  cursor: pointer;
+  clip-path: polygon(4px 0%, 100% 0%, calc(100% - 4px) 100%, 0% 100%);
+  transition: all 0.15s;
+}
+.log-btn:hover {
+  background: linear-gradient(135deg, #3a2a08, var(--gold-dim));
+  box-shadow: 0 0 12px rgba(200,151,42,0.3);
+}
+.log-entries { max-height: 220px; overflow-y: auto; }
+.log-entries::-webkit-scrollbar { width: 4px; }
+.log-entries::-webkit-scrollbar-track { background: transparent; }
+.log-entries::-webkit-scrollbar-thumb { background: var(--gold-dim); }
+.log-entry {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--silver);
+  padding: 7px 10px;
+  border-bottom: 1px solid rgba(200,151,42,0.08);
+  letter-spacing: 0.5px;
+}
+.log-entry .log-time {
+  font-family: 'Bebas Neue', sans-serif;
+  color: var(--gold-dim);
+  font-size: 13px;
+  letter-spacing: 2px;
+  margin-right: 8px;
+}
+
+/* ── FOOTER ── */
+.footer {
+  text-align: center;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  color: var(--muted);
+  letter-spacing: 4px;
+  padding: 20px 0;
+  border-top: 1px solid var(--gold-dim);
+  text-transform: uppercase;
+}
+
+/* ── EFFECTS ── */
+#center-popup {
+  position: fixed; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  z-index: 20000; pointer-events: none;
+}
+.center-msg {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(28px, 5vw, 52px);
+  color: var(--gold2);
+  letter-spacing: 6px;
+  text-align: center;
+  text-shadow: 0 0 30px var(--gold), 0 0 60px rgba(200,151,42,0.5);
+  padding: 20px 40px;
+  background: rgba(13,11,8,0.85);
+  border: 1px solid var(--gold);
+  border-top: 3px solid var(--gold2);
+  clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 20px 100%, 0 calc(100% - 20px));
+  animation: popup-in 0.35s cubic-bezier(0.2,1.4,0.5,1) forwards;
+}
+.center-msg.ach-msg {
+  color: var(--orange2);
+  border-color: var(--orange2);
+  border-top-color: var(--gold2);
+  text-shadow: 0 0 30px var(--orange), 0 0 60px rgba(224,90,0,0.5);
+  font-size: clamp(32px, 6vw, 60px);
+}
+@keyframes popup-in {
+  0%   { opacity: 0; transform: scale(0.6) translateY(20px); }
+  70%  { opacity: 1; transform: scale(1.05) translateY(-4px); }
+  100% { opacity: 1; transform: scale(1) translateY(0); }
+}
+@keyframes popup-out {
+  0%   { opacity: 1; transform: scale(1); }
+  100% { opacity: 0; transform: scale(1.1) translateY(-16px); }
+}
+#screen-flash {
+  position: fixed; inset: 0;
+  pointer-events: none; z-index: 19999;
+  opacity: 0;
+}
+@keyframes flash-task {
+  0%   { opacity: 0.18; background: radial-gradient(ellipse at center, rgba(200,151,42,0.3), transparent 70%); }
+  100% { opacity: 0; }
+}
+@keyframes flash-ach {
+  0%   { opacity: 0.4;  background: radial-gradient(ellipse at center, rgba(255,123,26,0.45), rgba(200,151,42,0.2) 50%, transparent 80%); }
+  50%  { opacity: 0.25; }
+  100% { opacity: 0; }
+}
+.particle {
+  position: fixed;
+  pointer-events: none;
+  z-index: 19998;
+  font-size: 20px;
+  animation: particle-fly 1.2s ease-out forwards;
+}
+@keyframes particle-fly {
+  0%   { opacity: 1; transform: translate(0,0) scale(1) rotate(0deg); }
+  100% { opacity: 0; transform: translate(var(--tx), var(--ty)) scale(0.3) rotate(var(--tr)); }
+}
+@keyframes flicker {
+  0%, 95%, 100% { opacity: 1; }
+  96% { opacity: 0.85; }
+  97% { opacity: 1; }
+  98% { opacity: 0.9; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+@keyframes pop {
+  0% { transform: scale(0.9); }
+  60% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+</style>
+</head>
+<body>
+
+<!-- NOTIFICATIONS -->
+<div id="notif"></div>
+<div id="center-popup"></div>
+<div id="screen-flash"></div>
+
+<!-- BOOT SCREEN -->
+<div id="boot">
+  <div class="boot-logo">MILLION</div>
+  <div class="boot-title">ЦЕЛЬ: 1 000 000 ₽<br><span style="font-size:0.6em;color:var(--muted);letter-spacing:4px;">PERSONAL EDITION v1.0</span></div>
+  <div class="boot-log" id="boot-log"></div>
+  <div class="boot-bar-wrap"><div class="boot-bar" id="bootBar"></div></div>
+  <div class="boot-sub" style="margin-top:14px;">ЗАГРУЗКА СОХРАНЕНИЯ...</div>
+</div>
+
+<!-- MAIN -->
+<div class="wrap">
+
+  <!-- TOP BANNER -->
+<div style="text-align:center; padding: 24px 24px 20px; border-bottom: 2px solid var(--gold-dim); margin-bottom: 0; background: linear-gradient(180deg, #1a1208 0%, var(--bg) 100%); position:relative; overflow:hidden;">
+  <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%, rgba(200,151,42,0.1) 0%, transparent 70%);pointer-events:none;"></div>
+  <div style="font-family:'Bebas Neue',sans-serif; font-size:clamp(18px,4vw,42px); color:var(--gold2); text-shadow: 0 0 30px rgba(200,151,42,0.6), 0 0 60px rgba(200,151,42,0.2); letter-spacing:8px; position:relative;">
+    1 миллион рублей к 20 годам
+  </div>
+</div>
+
+<!-- HUD -->
+  <div class="hud">
+    <div class="hud-brand">
+      ЦЕЛЬ: 1 000 000 ₽
+      <span>PERSONAL DASHBOARD · v1.0 · <span id="syncStatus" style="color:var(--muted);font-size:0.9em;">●</span></span>
+    </div>
+    <div class="hud-right">
+      <div class="hud-stat">
+        <div class="hud-stat-val" id="hudDays">—</div>
+        <div class="hud-stat-label">дней осталось</div>
+      </div>
+      <div class="hud-stat">
+        <div class="hud-stat-val" id="hudPct">0%</div>
+        <div class="hud-stat-label">выполнено</div>
+      </div>
+      <div class="hud-stat">
+        <div class="hud-stat-val" id="hudLevel">Lv.1</div>
+        <div class="hud-stat-label">система</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN PROGRESS -->
+  <div class="main-progress-wrap">
+    <div class="mp-header">
+      <div class="mp-title">▶ ПРОГРЕСС</div>
+      <div class="mp-value"><span id="mpEarned">0</span> / 1 000 000 ₽</div>
+    </div>
+    <div class="mp-track">
+      <div class="mp-fill" id="mpFill" style="width:0%"></div>
+    </div>
+    <div class="mp-pct" id="mpPct">0%</div>
+    <div class="mp-milestones">
+      <div class="mp-milestone" data-val="0">СТАРТ</div>
+      <div class="mp-milestone" data-val="100000">100К</div>
+      <div class="mp-milestone" data-val="250000">250К</div>
+      <div class="mp-milestone" data-val="500000">500К</div>
+      <div class="mp-milestone" data-val="750000">750К</div>
+      <div class="mp-milestone" data-val="1000000">1М 🏆</div>
+    </div>
+  </div>
+
+  <!-- HERO SECTION -->
+  <div class="hero">
+
+    <!-- CHARACTER -->
+    <div class="char-card">
+      <div class="char-avatar">🧑‍💻💸</div>
+      <div class="char-name">ИЛЬЯ РОМАНЧЕВ</div>
+      <div class="char-age" id="charAge">18 ЛЕТ</div>
+      <div class="char-class">ИЗ КУРЬЕРА В ПРЕДПРИНИМАТЕЛЯ</div>
+
+      <div class="xp-section" style="margin-bottom:20px;margin-top:4px;">
+        <div class="xp-label">⚡ XP ДО СЛЕДУЮЩЕГО УРОВНЯ СИСТЕМЫ</div>
+        <div class="xp-track">
+          <div class="xp-fill" id="xpFill" style="width:0%"></div>
+          <div class="xp-text" id="xpText">0 / 100 XP</div>
+        </div>
+      </div>
+
+      <div class="stat-row">
+        <div class="stat-header">
+          <span>ДИСЦИПЛИНА</span>
+          <span id="statDisc">0/500 (ур.1)</span>
+        </div>
+        <div class="stat-track"><div class="stat-fill green" id="fillDisc" style="width:0%"></div></div>
+      </div>
+      <div class="stat-row">
+        <div class="stat-header"><span>НАВЫК SMM</span><span id="statSkill">0/1000</span></div>
+        <div class="stat-track"><div class="stat-fill cyan" id="fillSkill" style="width:0%"></div></div>
+      </div>
+      <div class="stat-row">
+        <div class="stat-header"><span>ЛИЧНЫЙ БРЕНД</span><span id="statBrand">0/1000</span></div>
+        <div class="stat-track"><div class="stat-fill purple" id="fillBrand" style="width:0%"></div></div>
+      </div>
+      <div class="stat-row">
+        <div class="stat-header"><span>ПРОДАЖИ</span><span id="statSales">0/1000</span></div>
+        <div class="stat-track"><div class="stat-fill yellow" id="fillSales" style="width:0%"></div></div>
+      </div>
+      <div class="stat-row">
+        <div class="stat-header"><span>ФИЗИЧЕСКАЯ ФОРМА</span><span id="statFit">0/500</span></div>
+        <div class="stat-track"><div class="stat-fill" id="fillFit" style="width:0%;background:linear-gradient(90deg,#6b0000,#cc2200);box-shadow:0 0 6px #cc2200"></div></div>
+      </div>
+      <div class="stat-row">
+        <div class="stat-header"><span>ОФЛАЙН ЗАРАБОТОК</span><span id="statOffline">0/500</span></div>
+        <div class="stat-track"><div class="stat-fill" id="fillOffline" style="width:0%;background:var(--orange)"></div></div>
+      </div>
+      <div class="stat-row">
+        <div class="stat-header"><span>ЗНАКОМСТВА</span><span id="statSocial">0/500</span></div>
+        <div class="stat-track"><div class="stat-fill" id="fillSocial" style="width:0%;background:linear-gradient(90deg,#004d7a,#00b4d8);box-shadow:0 0 6px #00b4d8"></div></div>
+      </div>
+    </div>
+
+    <!-- QUEST INFO -->
+    <div style="display:flex;flex-direction:column;gap:16px;">
+      <div class="quest-card">
+        <div class="quest-tag">⚔ ЦЕЛЬ</div>
+        <div class="quest-title">КАПИТАЛ<br><span>1 000 000 ₽</span><br>К 20 ГОДАМ</div>
+        <div class="quest-deadline">СЕГОДНЯ: <span id="todayDisplay">—</span></div>
+        <div class="quest-deadline" style="margin-top:-20px;margin-bottom:20px;">ДЕДЛАЙН: 01.08.2027</div>
+
+        <div class="days-big" id="daysLeft">—</div>
+        <div class="days-sub">ДНЕЙ ДО ФИНАЛА</div>
+
+        <div class="gold-section">
+          <div class="gold-label">💰 ЗОЛОТО В КАЗНЕ</div>
+          <div class="gold-amount">₽ <span id="goldDisplay">0</span></div>
+          <div style="display:flex;gap:8px;margin-top:8px;">
+            <input class="gold-input" id="goldInput" type="number" min="0" style="flex:1" onkeydown="if(event.key==='Enter'){addGold(parseInt(this.value)||0);this.value='';}"/>
+            <input class="gold-input" id="goldSubInput" type="number" min="0" style="flex:1;border-color:#3a1a1a;color:#ff6666;" onkeydown="if(event.key==='Enter'){subtractGold(this.value);this.value='';}"/>
+          </div>
+          <div style="display:flex;justify-content:space-between;margin-top:6px;">
+            <span style="font-family:'VT323',monospace;font-size:16px;color:#444;letter-spacing:0.05em;">пополнение</span>
+            <span style="font-family:'VT323',monospace;font-size:16px;color:#553333;letter-spacing:0.05em;">расход</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PHASES -->
+  <div class="section-title">ФАЗЫ</div>
+  <div class="quests-grid">
+    <div class="quest-phase active" onclick="cyclePhase(this)">
+      <div class="qp-status">АКТИВНО</div>
+      <div class="qp-num">ФАЗА 1</div>
+      <div class="qp-boss">🐛</div>
+      <div class="qp-name">ФУНДАМЕНТ</div>
+      <div class="qp-desc">Замена быстрого дофамина на качественный. Подработки. Погружение в навык. Развитие блога. Первые клиенты.</div>
+      <div class="qp-reward">📊 ИТОГ ФАЗЫ: 20–40К/МЕС</div>
+    </div>
+    <div class="quest-phase locked" onclick="cyclePhase(this)">
+      <div class="qp-status">ЗАБЛОК.</div>
+      <div class="qp-num">ФАЗА 2</div>
+      <div class="qp-boss">🦊</div>
+      <div class="qp-name">ОХОТНИК<br>ЗА КЛИЕНТАМИ</div>
+      <div class="qp-desc">Подработки уходят. Стабильно 2–5 клиентов в месяц. Новые кейсы. Поднятие чека. Бренд набирает аудиторию.</div>
+      <div class="qp-reward">📊 ИТОГ ФАЗЫ: 40–100К/МЕС</div>
+    </div>
+    <div class="quest-phase locked" onclick="cyclePhase(this)">
+      <div class="qp-status">ЗАБЛОК.</div>
+      <div class="qp-num">ФАЗА 3</div>
+      <div class="qp-boss">🐉</div>
+      <div class="qp-name">МАСШТАБИРОВАНИЕ</div>
+      <div class="qp-desc">Найм помощника. Реклама на бренде.</div>
+      <div class="qp-reward">📊 ИТОГ ФАЗЫ: 100К+ В МЕС</div>
+    </div>
+  </div>
+
+  <!-- DAILY TASKS -->
+  <div class="section-title">ЗАДАНИЯ</div>
+  <div class="tasks-grid">
+    <div class="task-panel">
+      <div class="task-panel-title">⚡ ЕЖЕДНЕВНЫЕ ЗАДАНИЯ</div>
+      <div id="mainTasks">
+        <div class="task-item" onclick="toggleTask(this)" data-disc="1">
+          <div class="task-checkbox"></div>
+          <div class="task-text">Ранний подъём</div>
+          <div class="task-xp" style="color:var(--gold2)">+1 XP</div>
+        </div>
+        <div class="task-item" onclick="toggleTask(this)" data-disc="1">
+          <div class="task-checkbox"></div>
+          <div class="task-text">Написать план на день</div>
+          <div class="task-xp" style="color:var(--gold2)">+1 XP</div>
+        </div>
+        <div class="task-item" onclick="toggleTask(this)" data-skill="1">
+          <div class="task-checkbox"></div>
+          <div class="task-text">2 часа теории</div>
+          <div class="task-xp" style="color:var(--gold2)">+1 XP</div>
+        </div>
+        <div class="task-item" onclick="toggleTask(this)" data-skill="1">
+          <div class="task-checkbox"></div>
+          <div class="task-text">1 час практики</div>
+          <div class="task-xp" style="color:var(--gold2)">+1 XP</div>
+        </div>
+        <div class="task-item" onclick="toggleTask(this)" data-brand="1">
+          <div class="task-checkbox"></div>
+          <div class="task-text">Опубликовать 1 рилс</div>
+          <div class="task-xp" style="color:var(--gold2)">+1 XP</div>
+        </div>
+        <div class="task-item" onclick="toggleTask(this)" data-fit="1">
+          <div class="task-checkbox"></div>
+          <div class="task-text">Тренировка 1 час</div>
+          <div class="task-xp" style="color:var(--gold2)">+1 XP</div>
+        </div>
+        <div style="margin-top:10px; padding:10px 10px; background:rgba(200,151,42,0.06); border:1px solid var(--gold-dim); clip-path:polygon(4px 0%,100% 0%,calc(100% - 4px) 100%,0% 100%);">
+          <div style="font-family:'Bebas Neue',sans-serif; font-size:13px; color:var(--gold); letter-spacing:2px;;">🎁 6/6 ЗАДАНИЙ = НАГРАДА ДНЯ</div>
+          <div style="font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:13px; color:var(--muted); margin-top:3px; letter-spacing:0.5px;">30 минут рилсов · сладкое</div>
+        </div>
+      </div>
+    </div>
+    <div class="task-panel">
+      <div class="task-panel-title">🏋 БОНУСНЫЕ ЗАДАНИЯ</div>
+      <div id="bonusTasks">
+        <div class="task-item" onclick="toggleTask(this)" data-brand="1">
+          <div class="task-checkbox"></div>
+          <div class="task-text">Опубликовать 1 пост</div>
+          <div class="task-xp" style="color:var(--gold2)">+1 XP</div>
+        </div>
+        <div class="task-item" onclick="toggleTask(this)" data-sales="1">
+          <div class="task-checkbox"></div>
+          <div class="task-text">Сделать 10 касаний</div>
+          <div class="task-xp" style="color:var(--gold2)">+1 XP</div>
+        </div>
+        <div class="task-item" onclick="toggleTask(this)" data-sales="1">
+          <div class="task-checkbox"></div>
+          <div class="task-text">Начать работу с клиентом</div>
+          <div class="task-xp" style="color:var(--gold2)">+1 XP</div>
+        </div>
+        <div class="task-item" onclick="toggleTask(this)" data-offline="1">
+          <div class="task-checkbox"></div>
+          <div class="task-text">Заработать 1000 рублей</div>
+          <div class="task-xp" style="color:var(--gold2)">+1 XP</div>
+        </div>
+        <div class="task-item" onclick="toggleTask(this)" data-offline="1">
+          <div class="task-checkbox"></div>
+          <div class="task-text">Продать предмет</div>
+          <div class="task-xp" style="color:var(--gold2)">+1 XP</div>
+        </div>
+        <div class="task-item" onclick="toggleTask(this)" data-social="1">
+          <div class="task-checkbox"></div>
+          <div class="task-text">Поговорить с незнакомым человеком</div>
+          <div class="task-xp" style="color:var(--gold2)">+1 XP</div>
+        </div>
+        <div class="task-item" onclick="toggleTask(this)" data-disc="1" data-brand="1">
+          <div class="task-checkbox"></div>
+          <div class="task-text">Кейс + отзыв в портфолио</div>
+          <div class="task-xp" style="color:var(--gold2)">+1 XP</div>
+        </div>
+        <div class="task-item" onclick="toggleTask(this)" data-brand="1">
+          <div class="task-checkbox"></div>
+          <div class="task-text">Опубликовать 1 видео на Ютуб</div>
+          <div class="task-xp" style="color:var(--gold2)">+1 XP</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ACHIEVEMENTS -->
+  <div class="section-title">ДОСТИЖЕНИЯ</div>
+
+  <!-- ГРУППА 1: НАЧАЛО -->
+  <div style="font-family:'Bebas Neue',sans-serif; font-size:13px; color:var(--orange2); letter-spacing:5px; padding:18px 4px 10px; border-bottom:1px solid var(--gold-dim); margin-bottom:12px; text-shadow:0 0 10px var(--orange);">НАЧАЛО</div>
+  <div class="ach-grid" id="achGrid">
+    <div class="ach-item" onclick="toggleAch(this)">
+      <span class="ach-icon">🎯</span>
+      <div class="ach-name">ПЕРВЫЙ ШАГ</div>
+      <div class="ach-desc">Начать игру</div>
+    </div>
+    <div class="ach-item" onclick="toggleAch(this)">
+      <span class="ach-icon">🎬</span>
+      <div class="ach-name">ПЕРВОЕ ВИДЕО</div>
+      <div class="ach-desc">Опубликовать первый рилс</div>
+    </div>
+    <div class="ach-item" onclick="toggleAch(this)">
+      <span class="ach-icon">🎙️</span>
+      <div class="ach-name">КУПИТЬ ОБОРУД.</div>
+      <div class="ach-desc">Куплено оборудование для съёмки</div>
+    </div>
+    <div class="ach-item" onclick="toggleAch(this)">
+      <span class="ach-icon">🔍</span>
+      <div class="ach-name">АНАЛИЗ</div>
+      <div class="ach-desc">Разобрать 50 рилсов</div>
+    </div>
+    <div class="ach-item" onclick="toggleAch(this)">
+      <span class="ach-icon">📦</span>
+      <div class="ach-name">ЧИСТЫЙ СКЛАД</div>
+      <div class="ach-desc">Продать все товарные остатки</div>
+    </div>
+    <div class="ach-item" onclick="toggleAch(this)">
+      <span class="ach-icon">👀</span>
+      <div class="ach-name">ПЕРВЫЕ ЗРИТЕЛИ</div>
+      <div class="ach-desc">Набрать 10к просмотров на рилсе</div>
+    </div>
+    <div class="ach-item" onclick="toggleAch(this)">
+      <span class="ach-icon">📱</span>
+      <div class="ach-name">КУПИТЬ АЙФОН</div>
+      <div class="ach-desc">Купить айфон на свои деньги</div>
+    </div>
+  </div>
+
+  <!-- ГРУППА 2: КЛИЕНТЫ -->
+  <div style="font-family:'Bebas Neue',sans-serif; font-size:13px; color:var(--orange2); letter-spacing:5px; padding:22px 4px 10px; border-bottom:1px solid var(--gold-dim); margin-bottom:12px; text-shadow:0 0 10px var(--orange);">КЛИЕНТЫ</div>
+  <div class="ach-grid">
+    <div class="ach-item" onclick="toggleAch(this)">
+      <span class="ach-icon">🤝</span>
+      <div class="ach-name">ПЕРВЫЙ КОНТАКТ</div>
+      <div class="ach-desc">Первые переговоры с клиентом</div>
+    </div>
+    <div class="ach-item" onclick="toggleAch(this)">
+      <span class="ach-icon">📨</span>
+      <div class="ach-name">ХОЛОДНЫЙ СТАРТ</div>
+      <div class="ach-desc">Написать 100 клиентам</div>
+    </div>
+    <div class="ach-item" onclick="toggleAch(this)">
+      <span class="ach-icon">💼</span>
+      <div class="ach-name">КЛИЕНТ №1</div>
+      <div class="ach-desc">Первый бесплатный клиент</div>
+    </div>
+    <div class="ach-item" onclick="toggleAch(this)">
+      <span class="ach-icon">📋</span>
+      <div class="ach-name">ПЕРВЫЙ КЕЙС</div>
+      <div class="ach-desc">Оформить первый кейс + отзыв</div>
+    </div>
+    <div class="ach-item" onclick="toggleAch(this)">
+      <span class="ach-icon">💰</span>
+      <div class="ach-name">ПЕРВЫЙ ПЛАТЁЖ</div>
+      <div class="ach-desc">Первый платный клиент</div>
+    </div>
+    <div class="ach-item" onclick="toggleAch(this)">
+      <span class="ach-icon">🤝</span>
+      <div class="ach-name">РЕАЛЬНОСТЬ</div>
+      <div class="ach-desc">Выйти на клиента через живые переговоры</div>
+    </div>
+    <div class="ach-item" onclick="toggleAch(this)">
+      <span class="ach-icon">📢</span>
+      <div class="ach-name">ПЕРВАЯ РЕКЛАМА</div>
+      <div class="ach-desc">Потратить 10к рублей на рекламу</div>
+    </div>
+    <div class="ach-item" onclick="toggleAch(this)">
+      <span class="ach-icon">📂</span>
+      <div class="ach-name">ДЕСЯТОК КЕЙСОВ</div>
+      <div class="ach-desc">Оформить 10 кейсов для портфолио</div>
+    </div>
+    <div class="ach-item" onclick="toggleAch(this)">
+      <span class="ach-icon">💎</span>
+      <div class="ach-name">ДЕКОМПОЗИЦИЯ</div>
+      <div class="ach-desc">Заработать 50к рублей с одной продажи</div>
+    </div>
+  </div>
+
+  <!-- ГРУППА 3: ЛИЧНЫЙ БРЕНД -->
+  <div style="font-family:'Bebas Neue',sans-serif; font-size:13px; color:var(--orange2); letter-spacing:5px; padding:22px 4px 10px; border-bottom:1px solid var(--gold-dim); margin-bottom:12px; text-shadow:0 0 10px var(--orange);">ЛИЧНЫЙ БРЕНД</div>
+  <div class="ach-grid">
+    <div class="ach-item" onclick="toggleAch(this)">
+      <span class="ach-icon">📅</span>
+      <div class="ach-name">ФЛЕШБЭК</div>
+      <div class="ach-desc">Выложить 30 рилсов за 30 дней</div>
+    </div>
+    <div class="ach-item" onclick="toggleAch(this)">
+      <span class="ach-icon">🎥</span>
+      <div class="ach-name">КОНТЕНТМЕЙКЕР</div>
+      <div class="ach-desc">Опубликовать 100 рилсов</div>
+    </div>
+    <div class="ach-item" onclick="toggleAch(this)">
+      <span class="ach-icon">📣</span>
+      <div class="ach-name">100 В ТЕЛЕГРАМ</div>
+      <div class="ach-desc">100 подписчиков в Телеграм</div>
+    </div>
+    <div class="ach-item" onclick="toggleAch(this)">
+      <span class="ach-icon">📲</span>
+      <div class="ach-name">1000 В ТЕЛЕГРАМ</div>
+      <div class="ach-desc">1000 подписчиков в Телеграм</div>
+    </div>
+    <div class="ach-item" onclick="toggleAch(this)">
+      <span class="ach-icon">⚡</span>
+      <div class="ach-name">10000 В ТЕЛЕГРАМ</div>
+      <div class="ach-desc">10 000 подписчиков в Телеграм</div>
+    </div>
+    <div class="ach-item" onclick="toggleAch(this)">
+      <span class="ach-icon">📸</span>
+      <div class="ach-name">1000 В INSTA</div>
+      <div class="ach-desc">1000 подписчиков в Instagram</div>
+    </div>
+    <div class="ach-item" onclick="toggleAch(this)">
+      <span class="ach-icon">🔥</span>
+      <div class="ach-name">10000 В INSTA</div>
+      <div class="ach-desc">10 000 подписчиков в Instagram</div>
+    </div>
+    <div class="ach-item" onclick="toggleAch(this)">
+      <span class="ach-icon">👑</span>
+      <div class="ach-name">100000 В INSTA</div>
+      <div class="ach-desc">100 000 подписчиков в Instagram</div>
+    </div>
+    <div class="ach-item" onclick="toggleAch(this)">
+      <span class="ach-icon">🎞️</span>
+      <div class="ach-name">ВСПОМНИЛ 2К16</div>
+      <div class="ach-desc">Снять первое видео на Youtube</div>
+    </div>
+    <div class="ach-item" onclick="toggleAch(this)">
+      <span class="ach-icon">🎙️</span>
+      <div class="ach-name">ЮТУБЕР</div>
+      <div class="ach-desc">Снять 10 видео на Youtube</div>
+    </div>
+    <div class="ach-item" onclick="toggleAch(this)">
+      <span class="ach-icon">📺</span>
+      <div class="ach-name">1000 В YOUTUBE</div>
+      <div class="ach-desc">1000 подписчиков на Youtube</div>
+    </div>
+    <div class="ach-item" onclick="toggleAch(this)">
+      <span class="ach-icon">🚀</span>
+      <div class="ach-name">10000 В YOUTUBE</div>
+      <div class="ach-desc">10 000 подписчиков на Youtube</div>
+    </div>
+    <div class="ach-item" onclick="toggleAch(this)">
+      <span class="ach-icon">👥</span>
+      <div class="ach-name">КОМАНДА</div>
+      <div class="ach-desc">Нанять первого помощника</div>
+    </div>
+  </div>
+
+  <!-- ГРУППА 4: ДЕНЬГИ И СРОКИ -->
+  <div style="font-family:'Bebas Neue',sans-serif; font-size:13px; color:var(--orange2); letter-spacing:5px; padding:22px 4px 10px; border-bottom:1px solid var(--gold-dim); margin-bottom:12px; text-shadow:0 0 10px var(--orange);">ДЕНЬГИ И СРОКИ</div>
+  <div class="ach-grid">
+    <div class="ach-item" onclick="toggleAch(this)">
+      <span class="ach-icon">📚</span>
+      <div class="ach-name">СТУДЕНТ</div>
+      <div class="ach-desc">30 дней игры</div>
+    </div>
+    <div class="ach-item" onclick="toggleAch(this)">
+      <span class="ach-icon">🚀</span>
+      <div class="ach-name">100К РУБЕЖ</div>
+      <div class="ach-desc">Заработано 100 000 ₽</div>
+    </div>
+
+    <div class="ach-item" onclick="toggleAch(this)">
+      <span class="ach-icon">🏙️</span>
+      <div class="ach-name">ПЕРВЫЕ РЕЗУЛЬТАТЫ</div>
+      <div class="ach-desc">Капитал 200к. Награда: поездка в Москву</div>
+    </div>
+    <div class="ach-item" onclick="toggleAch(this)">
+      <span class="ach-icon">🎂</span>
+      <div class="ach-name">ИМЕНИННИК</div>
+      <div class="ach-desc">Исполнилось 19 лет</div>
+    </div>
+    <div class="ach-item" onclick="toggleAch(this)">
+      <span class="ach-icon">📈</span>
+      <div class="ach-name">СТАВКИ ПОВЫШАЮТСЯ</div>
+      <div class="ach-desc">Заработать за месяц 50к рублей</div>
+    </div>
+    <div class="ach-item" onclick="toggleAch(this)">
+      <span class="ach-icon">⚡</span>
+      <div class="ach-name">ПОЛПУТИ ПРОЙДЕНО</div>
+      <div class="ach-desc">Заработано 500 000 ₽</div>
+    </div>
+    <div class="ach-item" onclick="toggleAch(this)">
+      <span class="ach-icon">📅</span>
+      <div class="ach-name">ГОД ПРОШЁЛ</div>
+      <div class="ach-desc">365 дней игры</div>
+    </div>
+    <div class="ach-item" onclick="toggleAch(this)">
+      <span class="ach-icon">💯</span>
+      <div class="ach-name">ЛЕГЕНДАРНАЯ СОТКА</div>
+      <div class="ach-desc">Заработать 100к рублей за месяц</div>
+    </div>
+    <div class="ach-item" onclick="toggleAch(this)">
+      <span class="ach-icon">🏆</span>
+      <div class="ach-name">МИЛЛИОНЕР</div>
+      <div class="ach-desc">ФИНАЛЬНЫЙ БОСС ПОВЕРЖЕН</div>
+    </div>
+  </div>
+
+  <!-- ГРУППА 5: СПОРТ И ДЕВУШКИ -->
+  <div style="font-family:'Bebas Neue',sans-serif; font-size:13px; color:var(--orange2); letter-spacing:5px; padding:22px 4px 10px; border-bottom:1px solid var(--gold-dim); margin-bottom:12px; text-shadow:0 0 10px var(--orange);">СПОРТ И ДЕВУШКИ</div>
+  <div class="ach-grid">
+    <div class="ach-item" onclick="toggleAch(this)">
+      <span class="ach-icon">💪</span>
+      <div class="ach-name">25 ПОДТЯГИВАНИЙ</div>
+      <div class="ach-desc">Сделать 25 подтягиваний</div>
+    </div>
+    <div class="ach-item" onclick="toggleAch(this)">
+      <span class="ach-icon">🏃</span>
+      <div class="ach-name">10 КМ БЕГ</div>
+      <div class="ach-desc">Пробежать 10 км</div>
+    </div>
+    <div class="ach-item" onclick="toggleAch(this)">
+      <span class="ach-icon">💬</span>
+      <div class="ach-name">СОЦИАЛЬНЫЙ РЕКОРД</div>
+      <div class="ach-desc">Познакомиться со 100 девушками</div>
+    </div>
+    <div class="ach-item" onclick="toggleAch(this)">
+      <span class="ach-icon">🤸</span>
+      <div class="ach-name">СТОЙКА НА РУКАХ</div>
+      <div class="ach-desc">Простоять 10 секунд на руках без стены</div>
+    </div>
+    <div class="ach-item" onclick="toggleAch(this)">
+      <span class="ach-icon">🌹</span>
+      <div class="ach-name">ДОН ЖУАН</div>
+      <div class="ach-desc">Провести 5 свиданий за 7 дней</div>
+    </div>
+  </div>
+
+  <!-- ACTIVITY LOG -->
+  <div class="section-title">ЖУРНАЛ ДЕЙСТВИЙ</div>
+  <div class="log-panel">
+    <div class="log-input-row">
+      <input class="log-input" id="logInput" placeholder="> Что сделал сегодня?..." onkeydown="if(event.key==='Enter')addLog()"/>
+      <button class="log-btn" onclick="addLog()">ЗАПИСАТЬ</button>
+    </div>
+    <div class="log-entries" id="logEntries"></div>
+  </div>
+
+  <div class="footer">// PRESS START · YOUR STORY BEGINS NOW · 09.03.2026 //</div>
+</div>
+
+<script>
+// ── STATE ──
+const S = {
+  gold: 0,
+  xp: 0,
+  discXp: 0,
+  skillXp: 0,
+  brandXp: 0,
+  salesXp: 0,
+  fitXp: 0,
+  offlineXp: 0,
+  socialXp: 0,
+  level: 1,
+  tasks: {},
+  achs: {},
+  phases: {},
+  log: [],
+  lastTaskDate: ''
+};
+
+
+// ── SUPABASE SYNC ──
+const SUPA_URL = 'https://lynkjyxrbukzejvpsnjn.supabase.co';
+const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imx5bmtqeXhyYnVremVqdnBzbmpuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMwOTg5NTEsImV4cCI6MjA4ODY3NDk1MX0.e9_bxRQ_Nj6Q3rreJqG3drp6EDoopZmh6zp_sZuPX9c';
+const USER_ID = 'ilya'; // единственный пользователь
+
+let syncTimeout = null;
+
+async function cloudSave() {
+  const dot = document.getElementById('syncStatus');
+  if (dot) { dot.style.color = '#c8972a'; dot.title = 'Синхронизация...'; }
+  try {
+    const data = JSON.stringify(S);
+    const res = await fetch(`${SUPA_URL}/rest/v1/savedata`, {
+      method: 'POST',
+      headers: {
+        'apikey': SUPA_KEY,
+        'Authorization': 'Bearer ' + SUPA_KEY,
+        'Content-Type': 'application/json',
+        'Prefer': 'resolution=merge-duplicates'
+      },
+      body: JSON.stringify({ user_id: USER_ID, data })
+    });
+    if (dot) { dot.style.color = res.ok ? '#4a8a4a' : '#cc2200'; dot.title = res.ok ? 'Синхронизировано' : 'Ошибка синхронизации'; }
+  } catch(e) {
+    if (dot) { dot.style.color = '#cc2200'; dot.title = 'Нет соединения'; }
+    console.warn('Cloud save failed, using local only');
+  }
+}
+
+async function cloudLoad() {
+  try {
+    const res = await fetch(`${SUPA_URL}/rest/v1/savedata?user_id=eq.${USER_ID}&select=data`, {
+      headers: {
+        'apikey': SUPA_KEY,
+        'Authorization': 'Bearer ' + SUPA_KEY
+      }
+    });
+    const rows = await res.json();
+    if (rows && rows.length > 0 && rows[0].data) {
+      const cloud = JSON.parse(rows[0].data);
+      // Merge: use cloud if it has more XP (more recent progress)
+      const local = JSON.parse(localStorage.getItem('rpg_quest') || '{}');
+      const useCloud = (cloud.xp || 0) >= (local.xp || 0);
+      const merged = useCloud ? cloud : local;
+      Object.assign(S, merged);
+      localStorage.setItem('rpg_quest', JSON.stringify(S));
+      return true;
+    }
+  } catch(e) {
+    console.warn('Cloud load failed, using local');
+  }
+  return false;
+}
+
+function load() {
+  try {
+    const saved = JSON.parse(localStorage.getItem('rpg_quest') || '{}');
+    Object.assign(S, saved);
+  } catch(e) {}
+}
+
+function save() {
+  localStorage.setItem('rpg_quest', JSON.stringify(S));
+  // Debounce cloud save — не более 1 раза в 2 сек
+  clearTimeout(syncTimeout);
+  syncTimeout = setTimeout(() => cloudSave(), 2000);
+}
+
+
+function todayStr() {
+  return getSamaraDate().toLocaleDateString('ru-RU');
+}
+
+function checkDailyReset() {
+  const today = todayStr();
+  if (S.lastTaskDate !== today) {
+    S.tasks = {};
+    S.lastTaskDate = today;
+    save();
+  }
+}
+
+// ── BOOT ──
+function boot() {
+  const logs = [
+    '> ЗАГРУЗКА СОХРАНЕНИЯ...',
+    '> ЗАГРУЗКА ПЕРСОНАЖА...',
+    '> ПРОВЕРКА ЦЕЛИ: 1 000 000 ₽...',
+    '> РАСЧЁТ ДНЕЙ ДО ФИНАЛА...',
+    '> ЗАГРУЗКА СОХРАНЕНИЯ...',
+    '> ГОТОВО. УДАЧИ, ИГРОК.'
+  ];
+  const logEl = document.getElementById('boot-log');
+  const bar = document.getElementById('bootBar');
+  let i = 0;
+  const interval = setInterval(() => {
+    if (i < logs.length) {
+      logEl.innerHTML += logs[i] + '<br>';
+      logEl.scrollTop = logEl.scrollHeight;
+      bar.style.width = ((i + 1) / logs.length * 100) + '%';
+      i++;
+    } else {
+      clearInterval(interval);
+      setTimeout(() => {
+        document.getElementById('boot').classList.add('hide');
+        setTimeout(() => document.getElementById('boot').remove(), 600);
+        initUI();
+        notify('🎮 ИГРА ЗАГРУЖЕНА!', 'УДАЧИ В КВЕСТЕ, ИГРОК');
+      }, 600);
+    }
+  }, 300);
+}
+
+// ── SAMARA TIME UTILS ──
+function getSamaraDate() {
+  const now = new Date();
+  const utc = now.getTime() + now.getTimezoneOffset() * 60000;
+  return new Date(utc + 4 * 60 * 60000); // UTC+4
+}
+
+function updateAge() {
+  // Birthday: 2 August. Switch to 19 from 02.08.2026 onwards.
+  const d = getSamaraDate();
+  const age = (d.getFullYear() > 2026 || (d.getFullYear() === 2026 && (d.getMonth() > 7 || (d.getMonth() === 7 && d.getDate() >= 2)))) ? 19 : 18;
+  const el = document.getElementById('charAge');
+  if (el) el.textContent = age + ' ЛЕТ';
+}
+
+// ── INIT UI ──
+async function initUI() {
+  load(); // сначала локально (быстро)
+  await cloudLoad(); // потом из облака (перезаписывает если свежее)
+  checkDailyReset();
+
+  function updateDays() {
+    const samaraNow = getSamaraDate();
+    const target = new Date('2027-08-01T00:00:00+04:00');
+    const days = Math.max(0, Math.ceil((target - samaraNow) / 86400000));
+    document.getElementById('daysLeft').textContent = days;
+    document.getElementById('hudDays').textContent = days;
+    const opts = { day: '2-digit', month: '2-digit', year: 'numeric' };
+    document.getElementById('todayDisplay').textContent =
+      samaraNow.toLocaleDateString('ru-RU', opts);
+  }
+
+  function doMidnightRefresh() {
+    checkDailyReset();
+    updateDays();
+    updateAge();
+    // Re-render tasks (all unchecked after reset)
+    document.querySelectorAll('.task-item').forEach((el, i) => {
+      el.classList.toggle('done', !!S.tasks[i]);
+    });
+  }
+
+  updateDays();
+  updateAge();
+
+  // Schedule refresh at next Samara midnight
+  function scheduleNextMidnight() {
+    const samaraNow = getSamaraDate();
+    const msUntilMidnight =
+      (24 - samaraNow.getHours()) * 3600000
+      - samaraNow.getMinutes() * 60000
+      - samaraNow.getSeconds() * 1000
+      - samaraNow.getMilliseconds();
+    setTimeout(() => { doMidnightRefresh(); scheduleNextMidnight(); }, msUntilMidnight);
+  }
+  scheduleNextMidnight();
+
+  // Gold
+  if (S.gold) {
+    updateGold(S.gold, true);
+  }
+
+  // Tasks
+  document.querySelectorAll('.task-item').forEach((el, i) => {
+    if (S.tasks[i]) el.classList.add('done');
+  });
+
+  // Achs
+  document.querySelectorAll('.ach-item').forEach((el) => {
+    const key = el.querySelector('.ach-name').textContent.trim();
+    if (S.achs[key]) el.classList.add('unlocked');
+  });
+
+  // Phases
+  document.querySelectorAll('.quest-phase').forEach((el, i) => {
+    if (S.phases[i] === 'active') { el.className = 'quest-phase active'; el.querySelector('.qp-status').textContent = 'АКТИВНО'; }
+    if (S.phases[i] === 'done')   { el.className = 'quest-phase done';   el.querySelector('.qp-status').textContent = 'ПРОЙДЕНО'; }
+  });
+
+  // Log
+  renderLog();
+
+  // XP
+  updateXP(S.xp, true);
+  updateStats();
+}
+
+// ── GOLD ──
+function updateGold(val, silent) {
+  S.gold = Math.min(parseInt(val) || 0, 1000000);
+  if (!silent) save();
+
+  const pct = Math.round((S.gold / 1000000) * 100);
+  document.getElementById('goldDisplay').textContent = S.gold.toLocaleString('ru-RU');
+  document.getElementById('mpEarned').textContent = S.gold.toLocaleString('ru-RU');
+  document.getElementById('mpFill').style.width = pct + '%';
+  document.getElementById('mpPct').textContent = pct + '%';
+  document.getElementById('hudPct').textContent = pct + '%';
+
+  // Milestones
+  document.querySelectorAll('.mp-milestone[data-val]').forEach(el => {
+    el.classList.toggle('reached', S.gold >= parseInt(el.dataset.val));
+  });
+
+  // Auto-ach
+  if (S.gold >= 10000   && !S.achs[8])  { S.achs[8] = true;  unlockAch(8,  '💰 ДОСТИЖЕНИЕ: 10К ЗАРАБОТАНО!'); }
+  if (S.gold >= 100000  && !S.achs[9])  { S.achs[9] = true;  unlockAch(9,  '🚀 ДОСТИЖЕНИЕ: 100К РУБЕЖ!'); }
+  if (S.gold >= 1000000 && !S.achs[11]) { S.achs[11] = true; unlockAch(11, '🏆 ПОБЕДА! МИЛЛИОНЕР!'); }
+
+  updateStats();
+}
+
+// ── SUBTRACT GOLD ──
+function subtractGold(val) {
+  const amount = parseInt(val) || 0;
+  if (!amount) return;
+  S.gold = Math.max(0, S.gold - amount);
+  updateGold(S.gold, false);
+  document.getElementById('goldSubInput').value = '';
+}
+
+// ── ADD GOLD (via Enter) ──
+function addGold(amount) {
+  if (!amount) return;
+  S.gold = Math.min(S.gold + amount, 1000000);
+  updateGold(S.gold, false);
+}
+const XP_PER_LEVEL = 100; // kept for legacy, actual logic below
+
+function getSysLevel(xp) {
+  // Thresholds cumulative: 100, 300, 700, 1500, 3100, 6300, 12700, 25500, 51100, 102300
+  // Each level max doubles: 100, 200, 400, 800, 1600, 3200, 6400, 12800, 25600, 51200
+  const levels = [100, 200, 400, 800, 1600, 3200, 6400, 12800, 25600, 51200];
+  let cum = 0;
+  for (let i = 0; i < levels.length; i++) {
+    if (xp < cum + levels[i]) return { lvl: i + 1, levelMax: levels[i], cur: xp - cum };
+    cum += levels[i];
+  }
+  return { lvl: 10, levelMax: 51200, cur: 51200 };
+}
+
+function addXP(amount) {
+  S.xp += amount;
+  const sl = getSysLevel(S.xp);
+  if (sl.lvl > S.level) {
+    S.level = sl.lvl;
+    notify('⬆ LEVEL UP!', 'Уровень системы ' + S.level + ' достигнут!');
+  }
+  updateXP(S.xp);
+}
+
+function updateXP(total, silent) {
+  const sl = getSysLevel(total || 0);
+  S.level = sl.lvl;
+  document.getElementById('hudLevel').textContent = 'Lv.' + sl.lvl;
+  document.getElementById('xpFill').style.width = Math.min(100, Math.round((sl.cur / sl.levelMax) * 100)) + '%';
+  document.getElementById('xpText').textContent = sl.cur + ' / ' + sl.levelMax + ' XP';
+}
+
+// ── TASKS ──
+function toggleTask(el) {
+  const items = [...document.querySelectorAll('.task-item')];
+  const idx = items.indexOf(el);
+  const wasDone = el.classList.contains('done');
+
+  el.classList.toggle('done');
+  S.tasks[idx] = !wasDone;
+
+  const disc    = parseInt(el.dataset.disc)    || 0;
+  const skill   = parseInt(el.dataset.skill)   || 0;
+  const brand   = parseInt(el.dataset.brand)   || 0;
+  const sales   = parseInt(el.dataset.sales)   || 0;
+  const fit     = parseInt(el.dataset.fit)     || 0;
+  const lvl     = parseInt(el.dataset.level)   || 0;
+  const offline = parseInt(el.dataset.offline) || 0;
+  const social  = parseInt(el.dataset.social)  || 0;
+  const sign    = wasDone ? -1 : 1;
+
+  S.discXp    = Math.max(0, (S.discXp    || 0) + sign * (1 + disc));
+  S.skillXp   = Math.max(0, (S.skillXp   || 0) + sign * skill);
+  S.brandXp   = Math.max(0, (S.brandXp   || 0) + sign * brand);
+  S.salesXp   = Math.max(0, (S.salesXp   || 0) + sign * sales);
+  S.fitXp     = Math.max(0, (S.fitXp     || 0) + sign * fit);
+  S.offlineXp = Math.max(0, (S.offlineXp || 0) + sign * offline);
+  S.socialXp  = Math.max(0, (S.socialXp  || 0) + sign * social);
+  S.xp        = Math.max(0, (S.xp        || 0) + sign * (1 + lvl));
+
+  const newLevel = getSysLevel(S.xp).lvl;
+  if (newLevel !== S.level) {
+    S.level = newLevel;
+    notify(sign > 0 ? '⬆ LEVEL UP!' : '⬇ УРОВЕНЬ -1', 'Уровень системы ' + S.level);
+  }
+  updateXP(S.xp);
+  if (sign > 0) { flashScreen(false); spawnParticles(false); showCenterMsg('Лучший. Не слушай никого. Продолжай', false); }
+  notify(sign > 0 ? '✓ ЗАДАНИЕ' : '✗ ОТМЕНЕНО', sign > 0 ? '+1 XP' : '-1 XP');
+  updateStats();
+  save();
+}
+
+// ── PHASES ──
+function cyclePhase(el) {
+  const phases = [...document.querySelectorAll('.quest-phase')];
+  const idx = phases.indexOf(el);
+  const cur = el.classList.contains('active') ? 'active' : el.classList.contains('done') ? 'done' : 'locked';
+
+  let next;
+  if (cur === 'locked') next = 'active';
+  else if (cur === 'active') next = 'done';
+  else next = 'locked';
+
+  el.className = 'quest-phase ' + next;
+  const statusMap = { locked: 'ЗАБЛОК.', active: 'АКТИВНО', done: 'ПРОЙДЕНО' };
+  el.querySelector('.qp-status').textContent = statusMap[next];
+  S.phases[idx] = next;
+  save();
+}
+
+// ── ACHIEVEMENTS ──
+function achKey(el) {
+  return el.querySelector('.ach-name').textContent.trim();
+}
+
+function toggleAch(el) {
+  const key = achKey(el);
+  const wasUnlocked = el.classList.contains('unlocked');
+  el.classList.toggle('unlocked');
+  S.achs[key] = !wasUnlocked;
+  if (wasUnlocked) delete S.achs[key]; // clean up false entries
+  const sign = wasUnlocked ? -1 : 1;
+  S.discXp = Math.max(0, (S.discXp || 0) + sign * 10);
+  S.xp     = Math.max(0, (S.xp     || 0) + sign * 10);
+  const newLevel = getSysLevel(S.xp).lvl;
+  if (newLevel !== S.level) { S.level = newLevel; notify(sign > 0 ? '⬆ LEVEL UP!' : '⬇ УРОВЕНЬ -1', 'Уровень системы ' + S.level); }
+  updateXP(S.xp);
+  updateStats();
+  if (sign > 0) { flashScreen(true); spawnParticles(true); showCenterMsg('Ты красавчик. Это разминка. Продолжай', true); }
+  notify(sign > 0 ? '🏅 +10 XP' : '✗ ОТМЕНЕНО -10 XP', key);
+  save();
+}
+
+function unlockAch(idx, msg) {
+  const items = [...document.querySelectorAll('.ach-item')];
+  if (items[idx] && !items[idx].classList.contains('unlocked')) {
+    items[idx].classList.add('unlocked');
+    notify(msg, '');
+    save();
+  }
+}
+
+// ── STATS ──
+function getDiscLevel(xp) {
+  // ур1: 0–499 (max 500), ур2: 500–1499 (max 1000), ур3: 1500–3499 (max 2000), ур4: 3500–8499 (max 5000)
+  if (xp < 500)  return { lvl: 1, levelMax: 500,  cur: xp };
+  if (xp < 1500) return { lvl: 2, levelMax: 1000, cur: xp - 500 };
+  if (xp < 3500) return { lvl: 3, levelMax: 2000, cur: xp - 1500 };
+  if (xp < 8500) return { lvl: 4, levelMax: 5000, cur: xp - 3500 };
+  return { lvl: 4, levelMax: 5000, cur: 5000 };
+}
+
+function updateStats() {
+  const dxp   = S.discXp    || 0;
+  const skill  = Math.min(1000, S.skillXp   || 0);
+  const brand  = Math.min(1000, S.brandXp   || 0);
+  const sales  = Math.min(1000, S.salesXp   || 0);
+  const fit    = Math.min(500, S.fitXp     || 0);
+  const off    = Math.min(500, S.offlineXp || 0);
+  const soc    = Math.min(500, S.socialXp  || 0);
+
+  // Discipline with level tiers
+  const dl = getDiscLevel(dxp);
+  const discPct = Math.min(100, Math.round((dl.cur / dl.levelMax) * 100));
+  document.getElementById('fillDisc').style.width = discPct + '%';
+  document.getElementById('statDisc').textContent = dl.cur + '/' + dl.levelMax + ' (ур.' + dl.lvl + ')';
+
+  setBar('fillSkill',   'statSkill',   skill,  1000);
+  setBar('fillBrand',   'statBrand',   brand,  1000);
+  setBar('fillSales',   'statSales',   sales,  1000);
+  setBar('fillFit',     'statFit',     fit,    500);
+  setBar('fillOffline', 'statOffline', off,    500);
+  setBar('fillSocial',  'statSocial',  soc,    500);
+}
+
+function setBar(fillId, labelId, val, max) {
+  max = max || 100;
+  document.getElementById(fillId).style.width = Math.round((val / max) * 100) + '%';
+  document.getElementById(labelId).textContent = val + '/' + max;
+}
+
+// ── LOG ──
+function addLog() {
+  const input = document.getElementById('logInput');
+  const msg = input.value.trim();
+  if (!msg) return;
+
+  const now = new Date();
+  const time = now.toLocaleDateString('ru-RU') + ' ' + now.toLocaleTimeString('ru-RU', {hour:'2-digit',minute:'2-digit'});
+  S.log.unshift({ time, msg });
+  if (S.log.length > 50) S.log.pop();
+
+  input.value = '';
+  renderLog();
+  addXP(5);
+  save();
+  notify('📝 ЗАПИСАНО В ЖУРНАЛ', '+5 XP');
+}
+
+function renderLog() {
+  const el = document.getElementById('logEntries');
+  if (!S.log.length) {
+    el.innerHTML = '<div class="log-entry"><span class="log-msg" style="color:#1a2a1a">// Журнал пуст. Запиши первое действие...</span></div>';
+    return;
+  }
+  el.innerHTML = S.log.map(e =>
+    `<div class="log-entry"><span class="log-time">[${e.time}]</span><span class="log-msg">${e.msg}</span></div>`
+  ).join('');
+}
+
+// ── NOTIFICATIONS ──
+function showCenterMsg(text, isAch) {
+  const wrap = document.getElementById('center-popup');
+  wrap.innerHTML = '';
+  const el = document.createElement('div');
+  el.className = 'center-msg' + (isAch ? ' ach-msg' : '');
+  el.textContent = text;
+  wrap.appendChild(el);
+  setTimeout(() => {
+    el.style.animation = 'popup-out 0.4s ease forwards';
+    setTimeout(() => wrap.innerHTML = '', 400);
+  }, isAch ? 2200 : 1800);
+}
+
+function flashScreen(isAch) {
+  const f = document.getElementById('screen-flash');
+  f.style.animation = 'none';
+  f.offsetHeight;
+  f.style.animation = (isAch ? 'flash-ach' : 'flash-task') + ' 0.6s ease forwards';
+}
+
+function spawnParticles(isAch) {
+  const symbols = isAch
+    ? ['💰','⭐','🔥','✨','💥','🏅','⚡','👑']
+    : ['✨','⚡','💫','✓','★'];
+  const count = isAch ? 18 : 7;
+  for (let i = 0; i < count; i++) {
+    setTimeout(() => {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      p.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+      const cx = 40 + Math.random() * 20;
+      const cy = 40 + Math.random() * 20;
+      p.style.left = cx + 'vw';
+      p.style.top  = cy + 'vh';
+      const angle = Math.random() * Math.PI * 2;
+      const dist  = 80 + Math.random() * (isAch ? 200 : 80);
+      p.style.setProperty('--tx', Math.cos(angle) * dist + 'px');
+      p.style.setProperty('--ty', Math.sin(angle) * dist + 'px');
+      p.style.setProperty('--tr', (Math.random() * 720 - 360) + 'deg');
+      p.style.fontSize = (isAch ? 18 + Math.random() * 18 : 14 + Math.random() * 10) + 'px';
+      document.body.appendChild(p);
+      setTimeout(() => p.remove(), 1300);
+    }, i * (isAch ? 60 : 40));
+  }
+}
+
+function notify(title, sub) {
+  const wrap = document.getElementById('notif');
+  const el = document.createElement('div');
+  el.className = 'notif-item';
+  el.innerHTML = title + (sub ? '<br><span style="color:var(--muted);font-size:8px">' + sub + '</span>' : '');
+  wrap.appendChild(el);
+  setTimeout(() => { el.style.opacity = '0'; el.style.transition = 'opacity 0.4s'; setTimeout(() => el.remove(), 400); }, 3000);
+}
+
+// ── START ──
+window.onload = () => {
+  // Smart migration: preserve XP/gold/tasks/log, only reset achs when achievement list changes
+  // No migration needed - achs stored by name, not index
+  setupPWA();
+  setTimeout(boot, 200);
+};
+
+// ── PWA SETUP ──
+function setupPWA() {
+  // Generate icon via canvas
+  const canvas = document.createElement('canvas');
+  canvas.width = 512; canvas.height = 512;
+  const ctx = canvas.getContext('2d');
+
+  // Background
+  ctx.fillStyle = '#0d0b08';
+  ctx.fillRect(0, 0, 512, 512);
+
+  // Gold border
+  ctx.strokeStyle = '#c8972a';
+  ctx.lineWidth = 18;
+  ctx.strokeRect(20, 20, 472, 472);
+
+  // Inner accent line
+  ctx.strokeStyle = '#f0c040';
+  ctx.lineWidth = 4;
+  ctx.strokeRect(36, 36, 440, 440);
+
+  // Corner cuts (gangstar style)
+  ctx.fillStyle = '#0d0b08';
+  const cut = 40;
+  ctx.fillRect(0, 0, cut, cut);
+  ctx.fillRect(512 - cut, 0, cut, cut);
+  ctx.fillRect(0, 512 - cut, cut, cut);
+  ctx.fillRect(512 - cut, 512 - cut, cut, cut);
+
+  // "₽" symbol
+  ctx.fillStyle = '#f0c040';
+  ctx.font = 'bold 300px Bebas Neue, Arial';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.shadowColor = 'rgba(200,151,42,0.8)';
+  ctx.shadowBlur = 40;
+  ctx.fillText('₽', 256, 256);
+
+  const iconDataUrl = canvas.toDataURL('image/png');
+
+  // Set apple touch icon
+  document.getElementById('pwa-icon-apple').href = iconDataUrl;
+
+  // Set favicon
+  const svgIcon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="#0d0b08"/><text y=".9em" font-size="90" x="10" fill="#f0c040">₽</text></svg>`;
+  document.getElementById('pwa-icon-svg').href = 'data:image/svg+xml,' + encodeURIComponent(svgIcon);
+
+  // Create manifest blob
+  const manifest = {
+    name: 'MILLION — 1 000 000 ₽',
+    short_name: 'MILLION',
+    description: 'Трекер цели: 1 000 000 ₽ к 20 годам',
+    start_url: '.',
+    display: 'standalone',
+    background_color: '#0d0b08',
+    theme_color: '#0d0b08',
+    orientation: 'portrait',
+    icons: [
+      { src: iconDataUrl, sizes: '512x512', type: 'image/png', purpose: 'any maskable' }
+    ]
+  };
+  const manifestBlob = new Blob([JSON.stringify(manifest)], { type: 'application/json' });
+  const manifestUrl = URL.createObjectURL(manifestBlob);
+  document.getElementById('pwa-manifest').href = manifestUrl;
+
+  // Register service worker (inline via blob)
+  if ('serviceWorker' in navigator) {
+    const swCode = `
+const CACHE = 'million-v1';
+self.addEventListener('install', e => {
+  e.waitUntil(caches.open(CACHE).then(c => c.addAll(['/'])).catch(() => {}));
+  self.skipWaiting();
+});
+self.addEventListener('activate', e => {
+  e.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k)))));
+  self.clients.claim();
+});
+self.addEventListener('fetch', e => {
+  e.respondWith(caches.match(e.request).then(r => r || fetch(e.request)).catch(() => caches.match(e.request)));
+});
+    `;
+    const swBlob = new Blob([swCode], { type: 'application/javascript' });
+    const swUrl = URL.createObjectURL(swBlob);
+    navigator.serviceWorker.register(swUrl).catch(() => {});
+  }
+}
+</script>
+</body>
+</html>
