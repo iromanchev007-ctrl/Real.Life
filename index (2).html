@@ -918,6 +918,86 @@ body::before {
   0%   { opacity: 1; transform: translate(0,0) scale(1) rotate(0deg); }
   100% { opacity: 0; transform: translate(var(--tx), var(--ty)) scale(0.3) rotate(var(--tr)); }
 }
+/* ══════════════════════════════════
+   MOBILE RESPONSIVE
+══════════════════════════════════ */
+@media (max-width: 600px) {
+  .wrap { padding: 12px 10px 80px; }
+
+  /* HUD */
+  .hud {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 12px 14px;
+    clip-path: none;
+  }
+  .hud-brand { font-size: 18px; letter-spacing: 2px; }
+  .hud-right { gap: 16px; width: 100%; justify-content: space-between; }
+  .hud-stat-val { font-size: 20px; }
+  .hud-stat-label { font-size: 10px; }
+
+  /* Banner */
+  .hero { gap: 12px; }
+  .char-card { padding: 16px 14px; clip-path: none; }
+  .char-avatar { font-size: 44px; }
+  .char-name { font-size: 18px; letter-spacing: 2px; }
+  .quest-card { padding: 16px 14px; clip-path: none; }
+  .days-big { font-size: clamp(48px, 14vw, 72px); }
+  .quest-title { font-size: clamp(18px, 5vw, 28px); }
+
+  /* Progress */
+  .main-progress-wrap { padding: 14px 14px; clip-path: none; }
+  .mp-header { flex-wrap: wrap; gap: 4px; }
+  .mp-milestones { display: none; }
+
+  /* Phases */
+  .quests-grid { grid-template-columns: 1fr; }
+  .quest-phase { clip-path: none; }
+
+  /* Tasks */
+  .task-panel { clip-path: none; }
+  .task-item { clip-path: none; }
+  .task-text { font-size: 14px; }
+
+  /* Achievements */
+  .ach-grid { grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 8px; }
+  .ach-item { padding: 12px 8px; clip-path: none; }
+  .ach-icon { font-size: 22px; }
+  .ach-name { font-size: 11px; }
+  .ach-desc { font-size: 10px; }
+
+  /* Log */
+  .log-panel { clip-path: none; padding: 14px; }
+  .log-input-row { flex-direction: column; gap: 8px; }
+  .log-btn { width: 100%; text-align: center; }
+
+  /* Notif */
+  #notif { top: 10px; right: 10px; left: 10px; }
+  .notif-item { min-width: unset; width: 100%; clip-path: none; }
+
+  /* Center popup */
+  .center-msg { font-size: clamp(18px, 5vw, 28px); padding: 14px 20px; letter-spacing: 2px; clip-path: none; }
+
+  /* Gold inputs */
+  .gold-section { clip-path: none; }
+  .gold-input { font-size: 14px; }
+
+  /* Section titles */
+  .section-title { font-size: 18px; letter-spacing: 3px; }
+
+  /* Boot */
+  .boot-bar-wrap { width: 90vw; }
+  .boot-log { width: 90vw; }
+}
+
+@media (min-width: 601px) and (max-width: 900px) {
+  .wrap { padding: 16px 16px 60px; }
+  .hud-right { gap: 20px; }
+  .quests-grid { grid-template-columns: 1fr 1fr; }
+  .ach-grid { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); }
+}
+
 @keyframes flicker {
   0%, 95%, 100% { opacity: 1; }
   96% { opacity: 0.85; }
@@ -968,7 +1048,7 @@ body::before {
   <div class="hud">
     <div class="hud-brand">
       ЦЕЛЬ: 1 000 000 ₽
-      <span>PERSONAL DASHBOARD · v1.0 · <span id="syncStatus" style="color:var(--muted);font-size:0.9em;">●</span></span>
+      <span>PERSONAL DASHBOARD · v1.0 · <span id="syncStatus" title="Нажми для синхронизации" onclick="manualSync()" style="color:var(--muted);font-size:0.9em;cursor:pointer;">●</span></span>
     </div>
     <div class="hud-right">
       <div class="hud-stat">
@@ -1031,28 +1111,34 @@ body::before {
         </div>
         <div class="stat-track"><div class="stat-fill green" id="fillDisc" style="width:0%"></div></div>
       </div>
+      <!-- НАВЫК SMM — 4 уровня -->
       <div class="stat-row">
-        <div class="stat-header"><span>НАВЫК SMM</span><span id="statSkill">0/1000</span></div>
+        <div class="stat-header"><span>НАВЫК SMM</span><span id="statSkill">ур.1 · 0/100</span></div>
         <div class="stat-track"><div class="stat-fill cyan" id="fillSkill" style="width:0%"></div></div>
       </div>
+      <!-- ЛИЧНЫЙ БРЕНД — 4 уровня -->
       <div class="stat-row">
-        <div class="stat-header"><span>ЛИЧНЫЙ БРЕНД</span><span id="statBrand">0/1000</span></div>
+        <div class="stat-header"><span>ЛИЧНЫЙ БРЕНД</span><span id="statBrand">ур.1 · 0/100</span></div>
         <div class="stat-track"><div class="stat-fill purple" id="fillBrand" style="width:0%"></div></div>
       </div>
+      <!-- ПРОДАЖИ — 4 уровня -->
       <div class="stat-row">
-        <div class="stat-header"><span>ПРОДАЖИ</span><span id="statSales">0/1000</span></div>
+        <div class="stat-header"><span>ПРОДАЖИ</span><span id="statSales">ур.1 · 0/100</span></div>
         <div class="stat-track"><div class="stat-fill yellow" id="fillSales" style="width:0%"></div></div>
       </div>
+      <!-- ФИЗИЧЕСКАЯ ФОРМА — 3 уровня -->
       <div class="stat-row">
-        <div class="stat-header"><span>ФИЗИЧЕСКАЯ ФОРМА</span><span id="statFit">0/500</span></div>
+        <div class="stat-header"><span>ФИЗИЧЕСКАЯ ФОРМА</span><span id="statFit">ур.1 · 0/100</span></div>
         <div class="stat-track"><div class="stat-fill" id="fillFit" style="width:0%;background:linear-gradient(90deg,#6b0000,#cc2200);box-shadow:0 0 6px #cc2200"></div></div>
       </div>
+      <!-- ОФЛАЙН ЗАРАБОТОК — 3 уровня -->
       <div class="stat-row">
-        <div class="stat-header"><span>ОФЛАЙН ЗАРАБОТОК</span><span id="statOffline">0/500</span></div>
+        <div class="stat-header"><span>ОФЛАЙН ЗАРАБОТОК</span><span id="statOffline">ур.1 · 0/100</span></div>
         <div class="stat-track"><div class="stat-fill" id="fillOffline" style="width:0%;background:var(--orange)"></div></div>
       </div>
+      <!-- ЗНАКОМСТВА — 3 уровня -->
       <div class="stat-row">
-        <div class="stat-header"><span>ЗНАКОМСТВА</span><span id="statSocial">0/500</span></div>
+        <div class="stat-header"><span>ЗНАКОМСТВА</span><span id="statSocial">ур.1 · 0/100</span></div>
         <div class="stat-track"><div class="stat-fill" id="fillSocial" style="width:0%;background:linear-gradient(90deg,#004d7a,#00b4d8);box-shadow:0 0 6px #00b4d8"></div></div>
       </div>
     </div>
@@ -1186,6 +1272,11 @@ body::before {
         <div class="task-item" onclick="toggleTask(this)" data-social="1">
           <div class="task-checkbox"></div>
           <div class="task-text">Поговорить с незнакомым человеком</div>
+          <div class="task-xp" style="color:var(--gold2)">+1 XP</div>
+        </div>
+        <div class="task-item" onclick="toggleTask(this)" data-social="1">
+          <div class="task-checkbox"></div>
+          <div class="task-text">Свидание</div>
           <div class="task-xp" style="color:var(--gold2)">+1 XP</div>
         </div>
         <div class="task-item" onclick="toggleTask(this)" data-disc="1" data-brand="1">
@@ -1491,6 +1582,7 @@ async function cloudSave() {
   const dot = document.getElementById('syncStatus');
   if (dot) { dot.style.color = '#c8972a'; dot.title = 'Синхронизация...'; }
   try {
+    S._savedAt = Date.now(); // timestamp для merge
     const data = JSON.stringify(S);
     const res = await fetch(`${SUPA_URL}/rest/v1/savedata`, {
       method: 'POST',
@@ -1502,7 +1594,7 @@ async function cloudSave() {
       },
       body: JSON.stringify({ user_id: USER_ID, data })
     });
-    if (dot) { dot.style.color = res.ok ? '#4a8a4a' : '#cc2200'; dot.title = res.ok ? 'Синхронизировано' : 'Ошибка синхронизации'; }
+    if (dot) { dot.style.color = res.ok ? '#4a8a4a' : '#cc2200'; dot.title = res.ok ? 'Синхронизировано ✓' : 'Ошибка синхронизации'; }
   } catch(e) {
     if (dot) { dot.style.color = '#cc2200'; dot.title = 'Нет соединения'; }
     console.warn('Cloud save failed, using local only');
@@ -1520,12 +1612,15 @@ async function cloudLoad() {
     const rows = await res.json();
     if (rows && rows.length > 0 && rows[0].data) {
       const cloud = JSON.parse(rows[0].data);
-      // Merge: use cloud if it has more XP (more recent progress)
       const local = JSON.parse(localStorage.getItem('rpg_quest') || '{}');
-      const useCloud = (cloud.xp || 0) >= (local.xp || 0);
-      const merged = useCloud ? cloud : local;
+      // Используем более свежую версию по timestamp; если нет — по XP
+      const cloudTime = cloud._savedAt || 0;
+      const localTime = local._savedAt || 0;
+      const merged = cloudTime >= localTime ? cloud : local;
       Object.assign(S, merged);
       localStorage.setItem('rpg_quest', JSON.stringify(S));
+      const dot = document.getElementById('syncStatus');
+      if (dot) { dot.style.color = '#4a8a4a'; dot.title = 'Синхронизировано ✓'; }
       return true;
     }
   } catch(e) {
@@ -1542,10 +1637,11 @@ function load() {
 }
 
 function save() {
+  S._savedAt = Date.now();
   localStorage.setItem('rpg_quest', JSON.stringify(S));
-  // Debounce cloud save — не более 1 раза в 2 сек
+  // Debounce cloud save — не чаще 1 раза в 1.5 сек
   clearTimeout(syncTimeout);
-  syncTimeout = setTimeout(() => cloudSave(), 2000);
+  syncTimeout = setTimeout(() => cloudSave(), 1500);
 }
 
 
@@ -1609,10 +1705,44 @@ function updateAge() {
 }
 
 // ── INIT UI ──
+// Полный ре-рендер UI из состояния S (вызывается после cloud sync)
+function renderAll() {
+  // Tasks
+  document.querySelectorAll('.task-item').forEach((el, i) => {
+    el.classList.toggle('done', !!S.tasks[i]);
+  });
+  // Achs
+  document.querySelectorAll('.ach-item').forEach((el) => {
+    const key = el.querySelector('.ach-name').textContent.trim();
+    el.classList.toggle('unlocked', !!S.achs[key]);
+  });
+  // Phases
+  document.querySelectorAll('.quest-phase').forEach((el, i) => {
+    const st = S.phases[i] || 'locked';
+    el.className = 'quest-phase ' + st;
+    const map = { locked: 'ЗАБЛОК.', active: 'АКТИВНО', done: 'ПРОЙДЕНО' };
+    const qs = el.querySelector('.qp-status');
+    if (qs) qs.textContent = map[st] || 'ЗАБЛОК.';
+  });
+  // Gold
+  if (S.gold) updateGold(S.gold, true);
+  // XP + stats
+  updateXP(S.xp || 0, true);
+  updateStats();
+  renderLog();
+}
+
 async function initUI() {
   load(); // сначала локально (быстро)
-  await cloudLoad(); // потом из облака (перезаписывает если свежее)
   checkDailyReset();
+  renderAll(); // показываем локальные данные сразу
+
+  // Грузим облако и обновляем UI если есть свежие данные
+  const loaded = await cloudLoad();
+  if (loaded) {
+    checkDailyReset(); // проверяем сброс уже с облачными данными
+    renderAll();
+  }
 
   function updateDays() {
     const samaraNow = getSamaraDate();
@@ -1852,27 +1982,48 @@ function getDiscLevel(xp) {
   return { lvl: 4, levelMax: 5000, cur: 5000 };
 }
 
-function updateStats() {
-  const dxp   = S.discXp    || 0;
-  const skill  = Math.min(1000, S.skillXp   || 0);
-  const brand  = Math.min(1000, S.brandXp   || 0);
-  const sales  = Math.min(1000, S.salesXp   || 0);
-  const fit    = Math.min(500, S.fitXp     || 0);
-  const off    = Math.min(500, S.offlineXp || 0);
-  const soc    = Math.min(500, S.socialXp  || 0);
+// Уровневая система для навыков
+// tiers4: [100, 200, 300, 400] → суммарно 1000 XP
+// tiers3: [100, 150, 250]      → суммарно 500 XP
+function getSkillLevel(xp, tiers) {
+  let cumulative = 0;
+  for (let i = 0; i < tiers.length; i++) {
+    if (xp <= cumulative + tiers[i]) {
+      return { lvl: i + 1, cur: xp - cumulative, max: tiers[i], total: xp, totalMax: tiers.reduce((a,b)=>a+b,0) };
+    }
+    cumulative += tiers[i];
+  }
+  // Максимальный уровень
+  const last = tiers.length;
+  return { lvl: last, cur: tiers[last-1], max: tiers[last-1], total: xp, totalMax: tiers.reduce((a,b)=>a+b,0) };
+}
 
-  // Discipline with level tiers
+const TIERS4 = [100, 200, 300, 400]; // SMM, Бренд, Продажи
+const TIERS3 = [100, 150, 250];      // Физ, Офлайн, Знакомства
+
+function updateStats() {
+  const dxp = S.discXp || 0;
+
+  // Дисциплина — прежняя система уровней
   const dl = getDiscLevel(dxp);
   const discPct = Math.min(100, Math.round((dl.cur / dl.levelMax) * 100));
   document.getElementById('fillDisc').style.width = discPct + '%';
   document.getElementById('statDisc').textContent = dl.cur + '/' + dl.levelMax + ' (ур.' + dl.lvl + ')';
 
-  setBar('fillSkill',   'statSkill',   skill,  1000);
-  setBar('fillBrand',   'statBrand',   brand,  1000);
-  setBar('fillSales',   'statSales',   sales,  1000);
-  setBar('fillFit',     'statFit',     fit,    500);
-  setBar('fillOffline', 'statOffline', off,    500);
-  setBar('fillSocial',  'statSocial',  soc,    500);
+  // Навыки с уровнями
+  setLevelBar('fillSkill',   'statSkill',   Math.min(1000, S.skillXp   || 0), TIERS4);
+  setLevelBar('fillBrand',   'statBrand',   Math.min(1000, S.brandXp   || 0), TIERS4);
+  setLevelBar('fillSales',   'statSales',   Math.min(1000, S.salesXp   || 0), TIERS4);
+  setLevelBar('fillFit',     'statFit',     Math.min(500,  S.fitXp     || 0), TIERS3);
+  setLevelBar('fillOffline', 'statOffline', Math.min(500,  S.offlineXp || 0), TIERS3);
+  setLevelBar('fillSocial',  'statSocial',  Math.min(500,  S.socialXp  || 0), TIERS3);
+}
+
+function setLevelBar(fillId, labelId, xp, tiers) {
+  const s = getSkillLevel(xp, tiers);
+  const pct = Math.round((s.cur / s.max) * 100);
+  document.getElementById(fillId).style.width = pct + '%';
+  document.getElementById(labelId).textContent = 'ур.' + s.lvl + ' · ' + s.cur + '/' + s.max;
 }
 
 function setBar(fillId, labelId, val, max) {
@@ -1957,6 +2108,15 @@ function spawnParticles(isAch) {
   }
 }
 
+function manualSync() {
+  const dot = document.getElementById('syncStatus');
+  if (dot) { dot.style.color = '#c8972a'; dot.title = 'Синхронизация...'; }
+  cloudLoad().then(loaded => {
+    if (loaded) { checkDailyReset(); renderAll(); notify('☁ СИНХРОНИЗИРОВАНО', 'Данные обновлены'); }
+    else notify('☁ НЕТ ДАННЫХ', 'Облако пустое или ошибка');
+  });
+}
+
 function notify(title, sub) {
   const wrap = document.getElementById('notif');
   const el = document.createElement('div');
@@ -1968,11 +2128,21 @@ function notify(title, sub) {
 
 // ── START ──
 window.onload = () => {
-  // Smart migration: preserve XP/gold/tasks/log, only reset achs when achievement list changes
-  // No migration needed - achs stored by name, not index
   setupPWA();
   setTimeout(boot, 200);
 };
+
+// Синхронизация при возврате на вкладку (телефон ↔ комп)
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'visible') {
+    cloudLoad().then(loaded => { if (loaded) { renderAll(); } });
+  }
+});
+
+// Сохранить перед закрытием
+window.addEventListener('beforeunload', () => {
+  if (syncTimeout) { clearTimeout(syncTimeout); cloudSave(); }
+});
 
 // ── PWA SETUP ──
 function setupPWA() {
@@ -2042,7 +2212,7 @@ function setupPWA() {
   // Register service worker (inline via blob)
   if ('serviceWorker' in navigator) {
     const swCode = `
-const CACHE = 'million-v1';
+const CACHE = 'million-v3';
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(['/'])).catch(() => {}));
   self.skipWaiting();
@@ -2052,7 +2222,21 @@ self.addEventListener('activate', e => {
   self.clients.claim();
 });
 self.addEventListener('fetch', e => {
-  e.respondWith(caches.match(e.request).then(r => r || fetch(e.request)).catch(() => caches.match(e.request)));
+  // Supabase и любые API-запросы — всегда в сеть, никогда не кэшировать
+  if (e.request.url.includes('supabase.co') || e.request.url.includes('/rest/') || e.request.method !== 'GET') {
+    e.respondWith(fetch(e.request));
+    return;
+  }
+  // Остальное: сначала сеть, при ошибке — кэш
+  e.respondWith(
+    fetch(e.request)
+      .then(res => {
+        const clone = res.clone();
+        caches.open(CACHE).then(c => c.put(e.request, clone));
+        return res;
+      })
+      .catch(() => caches.match(e.request))
+  );
 });
     `;
     const swBlob = new Blob([swCode], { type: 'application/javascript' });
