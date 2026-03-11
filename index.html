@@ -1111,28 +1111,34 @@ body::before {
         </div>
         <div class="stat-track"><div class="stat-fill green" id="fillDisc" style="width:0%"></div></div>
       </div>
+      <!-- НАВЫК SMM — 4 уровня -->
       <div class="stat-row">
-        <div class="stat-header"><span>НАВЫК SMM</span><span id="statSkill">0/1000</span></div>
+        <div class="stat-header"><span>НАВЫК SMM</span><span id="statSkill">ур.1 · 0/100</span></div>
         <div class="stat-track"><div class="stat-fill cyan" id="fillSkill" style="width:0%"></div></div>
       </div>
+      <!-- ЛИЧНЫЙ БРЕНД — 4 уровня -->
       <div class="stat-row">
-        <div class="stat-header"><span>ЛИЧНЫЙ БРЕНД</span><span id="statBrand">0/1000</span></div>
+        <div class="stat-header"><span>ЛИЧНЫЙ БРЕНД</span><span id="statBrand">ур.1 · 0/100</span></div>
         <div class="stat-track"><div class="stat-fill purple" id="fillBrand" style="width:0%"></div></div>
       </div>
+      <!-- ПРОДАЖИ — 4 уровня -->
       <div class="stat-row">
-        <div class="stat-header"><span>ПРОДАЖИ</span><span id="statSales">0/1000</span></div>
+        <div class="stat-header"><span>ПРОДАЖИ</span><span id="statSales">ур.1 · 0/100</span></div>
         <div class="stat-track"><div class="stat-fill yellow" id="fillSales" style="width:0%"></div></div>
       </div>
+      <!-- ФИЗИЧЕСКАЯ ФОРМА — 3 уровня -->
       <div class="stat-row">
-        <div class="stat-header"><span>ФИЗИЧЕСКАЯ ФОРМА</span><span id="statFit">0/500</span></div>
+        <div class="stat-header"><span>ФИЗИЧЕСКАЯ ФОРМА</span><span id="statFit">ур.1 · 0/100</span></div>
         <div class="stat-track"><div class="stat-fill" id="fillFit" style="width:0%;background:linear-gradient(90deg,#6b0000,#cc2200);box-shadow:0 0 6px #cc2200"></div></div>
       </div>
+      <!-- ОФЛАЙН ЗАРАБОТОК — 3 уровня -->
       <div class="stat-row">
-        <div class="stat-header"><span>ОФЛАЙН ЗАРАБОТОК</span><span id="statOffline">0/500</span></div>
+        <div class="stat-header"><span>ОФЛАЙН ЗАРАБОТОК</span><span id="statOffline">ур.1 · 0/100</span></div>
         <div class="stat-track"><div class="stat-fill" id="fillOffline" style="width:0%;background:var(--orange)"></div></div>
       </div>
+      <!-- ЗНАКОМСТВА — 3 уровня -->
       <div class="stat-row">
-        <div class="stat-header"><span>ЗНАКОМСТВА</span><span id="statSocial">0/500</span></div>
+        <div class="stat-header"><span>ЗНАКОМСТВА</span><span id="statSocial">ур.1 · 0/100</span></div>
         <div class="stat-track"><div class="stat-fill" id="fillSocial" style="width:0%;background:linear-gradient(90deg,#004d7a,#00b4d8);box-shadow:0 0 6px #00b4d8"></div></div>
       </div>
     </div>
@@ -1266,6 +1272,11 @@ body::before {
         <div class="task-item" onclick="toggleTask(this)" data-social="1">
           <div class="task-checkbox"></div>
           <div class="task-text">Поговорить с незнакомым человеком</div>
+          <div class="task-xp" style="color:var(--gold2)">+1 XP</div>
+        </div>
+        <div class="task-item" onclick="toggleTask(this)" data-social="1">
+          <div class="task-checkbox"></div>
+          <div class="task-text">Свидание</div>
           <div class="task-xp" style="color:var(--gold2)">+1 XP</div>
         </div>
         <div class="task-item" onclick="toggleTask(this)" data-disc="1" data-brand="1">
@@ -1971,27 +1982,48 @@ function getDiscLevel(xp) {
   return { lvl: 4, levelMax: 5000, cur: 5000 };
 }
 
-function updateStats() {
-  const dxp   = S.discXp    || 0;
-  const skill  = Math.min(1000, S.skillXp   || 0);
-  const brand  = Math.min(1000, S.brandXp   || 0);
-  const sales  = Math.min(1000, S.salesXp   || 0);
-  const fit    = Math.min(500, S.fitXp     || 0);
-  const off    = Math.min(500, S.offlineXp || 0);
-  const soc    = Math.min(500, S.socialXp  || 0);
+// Уровневая система для навыков
+// tiers4: [100, 200, 300, 400] → суммарно 1000 XP
+// tiers3: [100, 150, 250]      → суммарно 500 XP
+function getSkillLevel(xp, tiers) {
+  let cumulative = 0;
+  for (let i = 0; i < tiers.length; i++) {
+    if (xp <= cumulative + tiers[i]) {
+      return { lvl: i + 1, cur: xp - cumulative, max: tiers[i], total: xp, totalMax: tiers.reduce((a,b)=>a+b,0) };
+    }
+    cumulative += tiers[i];
+  }
+  // Максимальный уровень
+  const last = tiers.length;
+  return { lvl: last, cur: tiers[last-1], max: tiers[last-1], total: xp, totalMax: tiers.reduce((a,b)=>a+b,0) };
+}
 
-  // Discipline with level tiers
+const TIERS4 = [100, 200, 300, 400]; // SMM, Бренд, Продажи
+const TIERS3 = [100, 150, 250];      // Физ, Офлайн, Знакомства
+
+function updateStats() {
+  const dxp = S.discXp || 0;
+
+  // Дисциплина — прежняя система уровней
   const dl = getDiscLevel(dxp);
   const discPct = Math.min(100, Math.round((dl.cur / dl.levelMax) * 100));
   document.getElementById('fillDisc').style.width = discPct + '%';
   document.getElementById('statDisc').textContent = dl.cur + '/' + dl.levelMax + ' (ур.' + dl.lvl + ')';
 
-  setBar('fillSkill',   'statSkill',   skill,  1000);
-  setBar('fillBrand',   'statBrand',   brand,  1000);
-  setBar('fillSales',   'statSales',   sales,  1000);
-  setBar('fillFit',     'statFit',     fit,    500);
-  setBar('fillOffline', 'statOffline', off,    500);
-  setBar('fillSocial',  'statSocial',  soc,    500);
+  // Навыки с уровнями
+  setLevelBar('fillSkill',   'statSkill',   Math.min(1000, S.skillXp   || 0), TIERS4);
+  setLevelBar('fillBrand',   'statBrand',   Math.min(1000, S.brandXp   || 0), TIERS4);
+  setLevelBar('fillSales',   'statSales',   Math.min(1000, S.salesXp   || 0), TIERS4);
+  setLevelBar('fillFit',     'statFit',     Math.min(500,  S.fitXp     || 0), TIERS3);
+  setLevelBar('fillOffline', 'statOffline', Math.min(500,  S.offlineXp || 0), TIERS3);
+  setLevelBar('fillSocial',  'statSocial',  Math.min(500,  S.socialXp  || 0), TIERS3);
+}
+
+function setLevelBar(fillId, labelId, xp, tiers) {
+  const s = getSkillLevel(xp, tiers);
+  const pct = Math.round((s.cur / s.max) * 100);
+  document.getElementById(fillId).style.width = pct + '%';
+  document.getElementById(labelId).textContent = 'ур.' + s.lvl + ' · ' + s.cur + '/' + s.max;
 }
 
 function setBar(fillId, labelId, val, max) {
