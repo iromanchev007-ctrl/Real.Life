@@ -1116,9 +1116,9 @@ body::before {
         </div>
         <div class="stat-track"><div class="stat-fill green" id="fillDisc" style="width:0%"></div></div>
       </div>
-      <!-- НАВЫК SMM — 4 уровня -->
+      <!-- НАВЫК ИИ СПЕЦИАЛИСТ — 4 уровня -->
       <div class="stat-row">
-        <div class="stat-header"><span>НАВЫК SMM</span><span id="statSkill">ур.1 · 0/100</span></div>
+        <div class="stat-header"><span>ИИ СПЕЦИАЛИСТ</span><span id="statSkill">ур.1 · 0/100</span></div>
         <div class="stat-track"><div class="stat-fill cyan" id="fillSkill" style="width:0%"></div></div>
       </div>
       <!-- ЛИЧНЫЙ БРЕНД — 4 уровня -->
@@ -1176,31 +1176,47 @@ body::before {
   </div>
 
   <!-- PHASES -->
-  <div class="section-title">ФАЗЫ</div>
-  <div class="quests-grid">
-    <div class="quest-phase active" onclick="cyclePhase(this)">
-      <div class="qp-status">АКТИВНО</div>
-      <div class="qp-num">ФАЗА 1</div>
-      <div class="qp-boss">🐛</div>
-      <div class="qp-name">ФУНДАМЕНТ</div>
-      <div class="qp-desc">Замена быстрого дофамина на качественный. Подработки. Погружение в навык. Развитие блога. Первые клиенты.</div>
-      <div class="qp-reward">📊 ИТОГ ФАЗЫ: 20–40К/МЕС</div>
+
+  <!-- ГЛАВА 1 -->
+  <div style="background:linear-gradient(135deg,#1a1510,#0f0c08); border:1px solid var(--gold-dim); border-left:4px solid var(--gold); padding:24px 24px 20px; margin-bottom:20px; clip-path:polygon(0 0,calc(100% - 16px) 0,100% 16px,100% 100%,0 100%); position:relative;">
+    <div style="font-family:'Bebas Neue',sans-serif; font-size:20px; color:var(--gold2); letter-spacing:5px; margin-bottom:16px; text-shadow:0 0 16px rgba(200,151,42,0.5);">⚔ ГЛАВА 1 · ПЕРВЫЕ 100 ДНЕЙ</div>
+    <div style="font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:14px; color:var(--silver); letter-spacing:1px; margin-bottom:18px; opacity:0.9;">Самоконтроль, дисциплина, навык и первые деньги.</div>
+
+    <div style="display:flex; flex-direction:column; gap:14px;">
+
+      <div style="border-left:2px solid var(--orange2); padding-left:14px;">
+        <div style="font-family:'Bebas Neue',sans-serif; font-size:14px; color:var(--orange2); letter-spacing:3px; margin-bottom:5px;">ПУНКТ №1 · ЕЖЕДНЕВНЫЕ РИЛСЫ</div>
+        <div style="font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:13px; color:var(--muted); line-height:1.6; letter-spacing:0.3px;">100 дней = 100 рилсов. Каждый день. Максимизировать качество. 100 дней дуалинго смог, 100 дней огонька в тиктоке смог, значит и на это способен. Развиваю личный бренд. Делаю лидмагнит в ТГК. Пишу посты в ТГК. Избавляюсь от стеснения. Результат не важен, важно постоянство.</div>
+      </div>
+
+      <div style="border-left:2px solid var(--orange2); padding-left:14px;">
+        <div style="font-family:'Bebas Neue',sans-serif; font-size:14px; color:var(--orange2); letter-spacing:3px; margin-bottom:5px;">ПУНКТ №2 · ЕЖЕДНЕВНЫЙ DEEPWORK</div>
+        <div style="font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:13px; color:var(--muted); line-height:1.6; letter-spacing:0.3px;">3 часа фокусного изучения ИИ. Желательно всё время утром. Телефон на кровати, уведомления и звук везде выключены. Наушники с музыкой РАДа в помощь. Вода и кофе под рукой.</div>
+      </div>
+
+      <div style="border-left:2px solid var(--orange2); padding-left:14px;">
+        <div style="font-family:'Bebas Neue',sans-serif; font-size:14px; color:var(--orange2); letter-spacing:3px; margin-bottom:5px;">ПУНКТ №3 · БЕЗ ПОРНО</div>
+        <div style="font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:13px; color:var(--muted); line-height:1.6; letter-spacing:0.3px;">100 дней без порно. Разгрузка раз в 14 дней, но если прям прижмёт — быстро и на мысли. При необходимости можно использовать фотки.</div>
+      </div>
+
+      <div style="border-left:2px solid var(--orange2); padding-left:14px;">
+        <div style="font-family:'Bebas Neue',sans-serif; font-size:14px; color:var(--orange2); letter-spacing:3px; margin-bottom:5px;">ПУНКТ №4 · СЛАДОСТИ И ТТ</div>
+        <div style="font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:13px; color:var(--muted); line-height:1.6; letter-spacing:0.3px;">Только по вечерам, когда выполнен основной блок работы. Сладкое ни в коем случае не есть до 17:00, после обеда ТТ — ошибка.</div>
+      </div>
+
+      <div style="border-left:2px solid var(--orange2); padding-left:14px;">
+        <div style="font-family:'Bebas Neue',sans-serif; font-size:14px; color:var(--orange2); letter-spacing:3px; margin-bottom:5px;">ПУНКТ №5 · НИЗКАЯ ЭНЕРГИЯ</div>
+        <div style="font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:13px; color:var(--muted); line-height:1.6; letter-spacing:0.3px;">Низкая энергия утром = кофе и душ. Низкая энергия днём = 20 минут сна, душ. Можно выйти прогуляться.</div>
+      </div>
+
+      <div style="border-left:2px solid var(--orange2); padding-left:14px;">
+        <div style="font-family:'Bebas Neue',sans-serif; font-size:14px; color:var(--orange2); letter-spacing:3px; margin-bottom:5px;">ПУНКТ №6 · ТРЕНИРОВКИ</div>
+        <div style="font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:13px; color:var(--muted); line-height:1.6; letter-spacing:0.3px;">Спорт каждый день. 2–3 раза в неделю силовая. 2 раза в неделю кардио. Остальное дома/улица: стойка на руках, уголок, калистеника.</div>
+      </div>
+
     </div>
-    <div class="quest-phase locked" onclick="cyclePhase(this)">
-      <div class="qp-status">ЗАБЛОК.</div>
-      <div class="qp-num">ФАЗА 2</div>
-      <div class="qp-boss">🦊</div>
-      <div class="qp-name">ОХОТНИК<br>ЗА КЛИЕНТАМИ</div>
-      <div class="qp-desc">Подработки уходят. Стабильно 2–5 клиентов в месяц. Новые кейсы. Поднятие чека. Бренд набирает аудиторию.</div>
-      <div class="qp-reward">📊 ИТОГ ФАЗЫ: 40–100К/МЕС</div>
-    </div>
-    <div class="quest-phase locked" onclick="cyclePhase(this)">
-      <div class="qp-status">ЗАБЛОК.</div>
-      <div class="qp-num">ФАЗА 3</div>
-      <div class="qp-boss">🐉</div>
-      <div class="qp-name">МАСШТАБИРОВАНИЕ</div>
-      <div class="qp-desc">Найм помощника. Реклама на бренде.</div>
-      <div class="qp-reward">📊 ИТОГ ФАЗЫ: 100К+ В МЕС</div>
+    <div style="margin-top:18px; padding:12px 16px; background:rgba(200,151,42,0.06); border:1px solid var(--gold-dim); border-left:3px solid var(--gold2); clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,0 100%);">
+      <div style="font-family:'Bebas Neue',sans-serif; font-size:14px; color:var(--gold2); letter-spacing:3px; text-shadow:0 0 10px rgba(200,151,42,0.5);">🏆 НАГРАДА ЗА ВЫПОЛНЕНИЕ ВСЕХ ПУНКТОВ — ПОЕЗДКА В МОСКВУ</div>
     </div>
   </div>
 
@@ -1222,12 +1238,12 @@ body::before {
         </div>
         <div class="task-item" onclick="toggleTask(this)" data-skill="1">
           <div class="task-checkbox"></div>
-          <div class="task-text">2 часа теории</div>
+          <div class="task-text">3 часа изучения ИИ</div>
           <div class="task-xp" style="color:var(--gold2)">+1 XP</div>
         </div>
-        <div class="task-item" onclick="toggleTask(this)" data-skill="1">
+        <div class="task-item" onclick="toggleTask(this)" data-disc="1">
           <div class="task-checkbox"></div>
-          <div class="task-text">1 час практики</div>
+          <div class="task-text">Преодоление слабостей и страхов</div>
           <div class="task-xp" style="color:var(--gold2)">+1 XP</div>
         </div>
         <div class="task-item" onclick="toggleTask(this)" data-brand="1">
@@ -1315,11 +1331,6 @@ body::before {
       <div class="ach-desc">Опубликовать первый рилс</div>
     </div>
     <div class="ach-item" onclick="toggleAch(this)">
-      <span class="ach-icon">🎙️</span>
-      <div class="ach-name">КУПИТЬ ОБОРУД.</div>
-      <div class="ach-desc">Куплено оборудование для съёмки</div>
-    </div>
-    <div class="ach-item" onclick="toggleAch(this)">
       <span class="ach-icon">🔍</span>
       <div class="ach-name">АНАЛИЗ</div>
       <div class="ach-desc">Разобрать 50 рилсов</div>
@@ -1335,9 +1346,19 @@ body::before {
       <div class="ach-desc">Набрать 10к просмотров на рилсе</div>
     </div>
     <div class="ach-item" onclick="toggleAch(this)">
+      <span class="ach-icon">🤖</span>
+      <div class="ach-name">ПЕРВЫЙ РОБОТ</div>
+      <div class="ach-desc">Создать первого помощника ИИ для себя</div>
+    </div>
+    <div class="ach-item" onclick="toggleAch(this)">
       <span class="ach-icon">📱</span>
       <div class="ach-name">КУПИТЬ АЙФОН</div>
       <div class="ach-desc">Купить айфон на свои деньги</div>
+    </div>
+    <div class="ach-item" onclick="toggleAch(this)">
+      <span class="ach-icon">💯</span>
+      <div class="ach-name">НАЧАЛО ПОЛОЖЕНО</div>
+      <div class="ach-desc">Глава 1 пройдена. 100 дней позади</div>
     </div>
   </div>
 
@@ -1476,14 +1497,14 @@ body::before {
     </div>
 
     <div class="ach-item" onclick="toggleAch(this)">
-      <span class="ach-icon">🏙️</span>
-      <div class="ach-name">ПЕРВЫЕ РЕЗУЛЬТАТЫ</div>
-      <div class="ach-desc">Капитал 200к. Награда: поездка в Москву</div>
-    </div>
-    <div class="ach-item" onclick="toggleAch(this)">
       <span class="ach-icon">🎂</span>
       <div class="ach-name">ИМЕНИННИК</div>
       <div class="ach-desc">Исполнилось 19 лет</div>
+    </div>
+    <div class="ach-item" onclick="toggleAch(this)">
+      <span class="ach-icon">🏙️</span>
+      <div class="ach-name">ПЕРВАЯ НАГРАДА</div>
+      <div class="ach-desc">Съездить в Москву</div>
     </div>
     <div class="ach-item" onclick="toggleAch(this)">
       <span class="ach-icon">📈</span>
@@ -1617,6 +1638,13 @@ async function cloudLoad() {
     const rows = await res.json();
     if (rows && rows.length > 0 && rows[0].data) {
       const cloud = JSON.parse(rows[0].data);
+      // Миграция v22 для облачных данных
+      if (cloud._version !== 'v22') {
+        cloud.xp = 0; cloud.discXp = 0; cloud.skillXp = 0;
+        cloud.brandXp = 0; cloud.salesXp = 0; cloud.fitXp = 0;
+        cloud.offlineXp = 0; cloud.socialXp = 0; cloud.level = 1;
+        cloud._version = 'v22';
+      }
       const local = JSON.parse(localStorage.getItem('rpg_quest') || '{}');
       // Используем более свежую версию по timestamp; если нет — по XP
       const cloudTime = cloud._savedAt || 0;
@@ -1637,6 +1665,13 @@ async function cloudLoad() {
 function load() {
   try {
     const saved = JSON.parse(localStorage.getItem('rpg_quest') || '{}');
+    // Миграция v22: сброс всех XP (новая система навыков + ИИ специалист)
+    if (saved._version !== 'v22') {
+      saved.xp = 0; saved.discXp = 0; saved.skillXp = 0;
+      saved.brandXp = 0; saved.salesXp = 0; saved.fitXp = 0;
+      saved.offlineXp = 0; saved.socialXp = 0; saved.level = 1;
+      saved._version = 'v22';
+    }
     Object.assign(S, saved);
   } catch(e) {}
 }
