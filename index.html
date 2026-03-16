@@ -1638,12 +1638,12 @@ async function cloudLoad() {
     const rows = await res.json();
     if (rows && rows.length > 0 && rows[0].data) {
       const cloud = JSON.parse(rows[0].data);
-      // Миграция v22 для облачных данных
-      if (cloud._version !== 'v22') {
+      // Миграция v23 для облачных данных
+      if (cloud._version !== 'v23') {
         cloud.xp = 0; cloud.discXp = 0; cloud.skillXp = 0;
         cloud.brandXp = 0; cloud.salesXp = 0; cloud.fitXp = 0;
         cloud.offlineXp = 0; cloud.socialXp = 0; cloud.level = 1;
-        cloud._version = 'v22';
+        cloud._version = 'v23';
       }
       const local = JSON.parse(localStorage.getItem('rpg_quest') || '{}');
       // Используем более свежую версию по timestamp; если нет — по XP
@@ -1665,12 +1665,12 @@ async function cloudLoad() {
 function load() {
   try {
     const saved = JSON.parse(localStorage.getItem('rpg_quest') || '{}');
-    // Миграция v22: сброс всех XP (новая система навыков + ИИ специалист)
-    if (saved._version !== 'v22') {
+    // Миграция v23: сброс всех XP (новая система навыков + ИИ специалист)
+    if (saved._version !== 'v23') {
       saved.xp = 0; saved.discXp = 0; saved.skillXp = 0;
       saved.brandXp = 0; saved.salesXp = 0; saved.fitXp = 0;
       saved.offlineXp = 0; saved.socialXp = 0; saved.level = 1;
-      saved._version = 'v22';
+      saved._version = 'v23';
     }
     Object.assign(S, saved);
   } catch(e) {}
