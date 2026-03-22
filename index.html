@@ -1574,7 +1574,366 @@ body::before {
   </div>
 
   <div class="footer">// PRESS START · YOUR STORY BEGINS NOW · 09.03.2026 //</div>
+
+  <!-- ══════════════════════════════════════════════════════ -->
+  <!-- ⚔ МАСТЕР-ДОКУМЕНТ ⚔ -->
+  <!-- ══════════════════════════════════════════════════════ -->
+
+  <div style="height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:48px 0 0;"></div>
+  <div style="text-align:center;font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:6px;color:var(--orange2);padding:18px 0 36px;text-shadow:0 0 10px var(--orange);">⚔ МАСТЕР-ДОКУМЕНТ · СИСТЕМА БЛОГА ⚔</div>
+
+  <!-- СИСТЕМА -->
+  <div class="section-title">СИСТЕМА БЛОГА</div>
+
+  <div id="sys-list" style="display:flex;flex-direction:column;gap:8px;margin-bottom:32px;"></div>
+
+  <!-- DIVIDER -->
+  <div style="height:1px;background:linear-gradient(90deg,transparent,var(--gold-dim),transparent);margin:40px 0;"></div>
+  <div style="text-align:center;font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:6px;color:var(--orange2);padding:0 0 28px;text-shadow:0 0 10px var(--orange);">🎬 БАНК ТЕМ ДЛЯ РИЛСОВ</div>
+
+  <!-- BANK STATS -->
+  <div style="display:flex;gap:28px;margin-bottom:20px;flex-wrap:wrap;">
+    <div><div style="font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--gold2);letter-spacing:2px;" id="bTotal">0</div><div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:11px;color:var(--muted);letter-spacing:3px;">ВСЕГО</div></div>
+    <div><div style="font-family:'Bebas Neue',sans-serif;font-size:28px;color:#4ccc00;letter-spacing:2px;" id="bDone">0</div><div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:11px;color:var(--muted);letter-spacing:3px;">СНЯТО</div></div>
+    <div><div style="font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--orange2);letter-spacing:2px;" id="bLeft">0</div><div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:11px;color:var(--muted);letter-spacing:3px;">ОСТАЛОСЬ</div></div>
+  </div>
+
+  <!-- TOPIC LIST -->
+  <div id="bank-list" style="display:flex;flex-direction:column;gap:5px;"></div>
+
+  <!-- ADD INPUT -->
+  <div style="display:flex;align-items:center;gap:10px;padding:12px 16px;background:rgba(200,151,42,0.03);border:1px dashed var(--gold-dim);clip-path:polygon(6px 0%,100% 0%,calc(100% - 6px) 100%,0% 100%);margin-top:8px;">
+    <span style="font-size:14px;color:var(--muted);">＋</span>
+    <input id="bank-add-input" placeholder="Новая тема — нажми Enter" onkeydown="bankAdd(event)"
+      style="background:none;border:none;outline:none;color:var(--cream);font-size:14px;font-family:'Barlow Condensed',sans-serif;font-weight:600;letter-spacing:0.5px;width:100%;" />
+  </div>
+
+  <!-- MOTIVATION -->
+  <div style="background:linear-gradient(135deg,rgba(224,90,0,0.08),rgba(200,151,42,0.04));border:1px solid rgba(224,90,0,0.25);border-left:4px solid var(--orange2);padding:28px 24px;margin-top:40px;clip-path:polygon(0 0,calc(100% - 16px) 0,100% 16px,100% 100%,0 100%);">
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:16px;color:var(--orange2);letter-spacing:4px;margin-bottom:16px;text-shadow:0 0 10px var(--orange);">⚡ ПРОЧИТАЙ КОГДА ХОЧЕТСЯ БРОСИТЬ</div>
+    <div style="font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:14px;color:var(--silver);line-height:1.8;letter-spacing:0.3px;">
+      Первые <span style="color:var(--gold2)">2–3 месяца будут тихими</span>. Мало просмотров, мало подписчиков, ноль реакций. Это нормально — это не провал, это фундамент.<br><br>
+      Алгоритмы не продвигают новых — они продвигают <span style="color:var(--gold2)">постоянных</span>. Твоя единственная задача в первые месяцы — не пропасть. Выходи даже когда кажется что никто не смотрит. Особенно тогда.<br><br>
+      Аудитория не приходит к тем кто снимает когда есть настроение. Она приходит к тем кто <span style="color:var(--gold2)">снимает несмотря ни на что</span>.<br><br>
+      У тебя есть то чего нет у большинства — <span style="color:var(--gold2)">реальная история</span> и реальный челлендж с цифрами. Просто продолжай делать.<br><br>
+      <span style="color:var(--gold2);font-size:16px;letter-spacing:2px;">500 ДНЕЙ. КАЖДЫЙ ДЕНЬ НА СЧЕТУ.</span>
+    </div>
+  </div>
+
+  <div style="height:1px;background:linear-gradient(90deg,transparent,var(--gold-dim),transparent);margin:48px 0 0;"></div>
+  <div style="text-align:center;font-family:'Bebas Neue',sans-serif;font-size:11px;letter-spacing:4px;color:var(--muted);padding:20px 0 0;">ROMANCHEV HISTORY · МАСТЕР-ДОКУМЕНТ · МАРТ 2026</div>
+
 </div>
+
+<style>
+/* ── SYSTEM ITEMS ── */
+.sys-item {
+  background: linear-gradient(135deg, #1a1510, #0f0c08);
+  border: 1px solid var(--gold-dim);
+  border-left: 3px solid var(--gold);
+  clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 0 100%);
+  overflow: hidden;
+}
+.sys-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 16px 18px 0;
+}
+.sys-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 13px;
+  color: var(--orange2);
+  min-width: 18px;
+  flex-shrink: 0;
+  letter-spacing: 1px;
+}
+.sys-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 14px;
+  color: var(--gold2);
+  letter-spacing: 3px;
+  margin-bottom: 3px;
+  text-shadow: 0 0 8px rgba(200,151,42,0.3);
+}
+.sys-body {
+  padding: 6px 18px 0 50px;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.7;
+  letter-spacing: 0.3px;
+  white-space: pre-wrap;
+}
+.sys-notes {
+  width: 100%;
+  background: rgba(200,151,42,0.02);
+  border: none;
+  border-top: 1px solid rgba(200,151,42,0.08);
+  outline: none;
+  color: var(--muted);
+  font-size: 12px;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  padding: 10px 18px 10px 50px;
+  resize: none;
+  min-height: 34px;
+  line-height: 1.6;
+  margin-top: 10px;
+  transition: background 0.2s, color 0.2s;
+}
+.sys-notes:focus {
+  background: rgba(200,151,42,0.04);
+  color: var(--cream);
+}
+.sys-notes::placeholder { color: rgba(200,151,42,0.2); font-style: italic; }
+
+/* ── BANK TOPICS ── */
+.bank-topic {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 14px;
+  background: rgba(200,151,42,0.03);
+  border: 1px solid var(--gold-dim);
+  clip-path: polygon(4px 0%, 100% 0%, calc(100% - 4px) 100%, 0% 100%);
+  transition: border-color 0.2s;
+  cursor: pointer;
+}
+.bank-topic:hover { border-color: var(--gold); }
+.bank-topic.done { background: rgba(0,80,40,0.35); border-color: rgba(0,150,70,0.3); }
+.bank-topic.done .bt-text { color: rgba(100,200,130,0.6); text-decoration: line-through; text-decoration-color: rgba(0,150,70,0.4); }
+.bank-topic.done .bt-num { color: rgba(0,150,70,0.5); }
+.bt-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 11px;
+  color: var(--gold-dim);
+  min-width: 28px;
+  flex-shrink: 0;
+  letter-spacing: 1px;
+}
+.bt-text {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--cream);
+  opacity: 0.85;
+  flex: 1;
+  letter-spacing: 0.3px;
+  line-height: 1.4;
+}
+.bt-check {
+  background: none;
+  border: 1px solid var(--gold-dim);
+  color: var(--muted);
+  font-size: 13px;
+  padding: 2px 6px;
+  cursor: pointer;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  letter-spacing: 1px;
+  clip-path: polygon(3px 0%,100% 0%,calc(100% - 3px) 100%,0% 100%);
+  transition: all 0.15s;
+  flex-shrink: 0;
+}
+.bt-check:hover { color: #4ccc00; border-color: #4ccc00; background: rgba(76,204,0,0.08); }
+.bank-topic.done .bt-check { color: #4ccc00; border-color: #4ccc00; }
+.bt-del {
+  background: none;
+  border: none;
+  color: rgba(200,151,42,0.2);
+  font-size: 16px;
+  cursor: pointer;
+  padding: 0 2px;
+  transition: color 0.15s;
+  flex-shrink: 0;
+  line-height: 1;
+}
+.bt-del:hover { color: var(--red2); }
+</style>
+
+<script>
+// ── СИСТЕМА БЛОГА DATA ──
+const sysData = [
+  { num: '01', title: 'БОЛЬШАЯ ЦЕЛЬ', body: '18-летний парень строит жизнь на своих условиях — публично, честно, с цифрами.' },
+  { num: '02', title: 'ВНЕШНОСТЬ', body: 'Простой паренёк в простой одежде.' },
+  { num: '03', title: 'РЕЧЬ', body: 'Дружеский + логика + честность. Говори как другу, не как аудитории. "Слушай, заметил одну вещь..."\nКонкретика вместо мотивации. Короткий вывод в конце. Одна мысль, которую человек унесёт с собой.' },
+  { num: '04', title: 'ПОДАЧА', body: 'Говорящая голова + тема сверху + субтитры. Иногда мысли на фоне динамичной нарезки. Это срез твоей головы в моменте.\n\nДлина: 30–60 секунд на старте. Не больше.\nЭнергия: спокойная уверенность, не крик и не шёпот. Ты не продаёшь — ты делишься.' },
+  { num: '05', title: 'ОБРАЗ', body: 'Парень, который выбрал свой путь в 18 и делает это публично.\n\nТри составляющих образа: спорт, деньги/бизнес, мышление.\n• Спорт — дисциплина, энергия, визуальный прогресс тела\n• Деньги/бизнес — ИИ услуги, капитал, честные цифры\n• Мышление — взгляды на систему, свободу, выбор пути' },
+  { num: '06', title: 'ЯКОРЬ', body: 'Дедлайн. 500 дней до 1 млн рублей.' },
+  { num: '07', title: 'ЛОКАЦИЯ', body: '• Дом — мысли, разборы, утро\n• Зал — спорт, энергия, дисциплина\n• Улица — движение, жизнь, прогулки с мыслями' },
+  { num: '08', title: 'ТИП СЪЁМКИ', body: '• Говорящая голова\n• Действие + голос за кадром, динамичная съёмка\n• Действие + музыка (иногда)' },
+  { num: '09', title: 'МОНТАЖ', body: 'CapCut, субтитры, лёгкая музыка, иногда приколы.\nСверху главная суть рилса написана.\nХук вначале важен — работать над ним.' },
+];
+
+const bankTopics = [
+  {t:"Кто я и куда иду — день 3, публичный старт", done:true},
+  {t:"Бот который я собрал сам — день 4", done:true},
+  {t:"Почему я закрываю товарку — без прикрас", done:false},
+  {t:"Сколько реально заработал за 2 года попыток — честные цифры", done:false},
+  {t:"Ошибки которые я сделал в первом бизнесе в 17 лет", done:false},
+  {t:"Почему ИИ-автоматизация а не крипта, дропшиппинг или арбитраж", done:false},
+  {t:"Что такое ИИ-автоматизация — объясняю за 60 секунд", done:false},
+  {t:"Страх общественного мнения — самый сильный страх в моей жизни", done:false},
+  {t:"Что случилось когда я нажал опубликовать первый раз", done:false},
+  {t:"Первая рабочая связка в n8n — как это было", done:false},
+  {t:"С чего начать изучение ИИ если ты полный ноль", done:false},
+  {t:"Как выглядит мой день когда всё идёт по плану", done:false},
+  {t:"Как выглядит мой день когда ничего не хочется", done:false},
+  {t:"Почему без спорта я бы не начал этот путь", done:false},
+  {t:"Зал — не про тело. Про дисциплину", done:false},
+  {t:"Зачем я показываю всё это людям — честный ответ", done:false},
+  {t:"Что изменилось когда объявил цель публично", done:false},
+  {t:"50 000 рублей в 18 лет — это много или мало", done:false},
+  {t:"Стартовая точка пути к миллиону — вот где я сейчас", done:false},
+  {t:"Чем отличается капитал от дохода — и почему это важно понять в 18", done:false},
+  {t:"Почему большинство никогда не станут финансово свободными — это не про лень", done:false},
+  {t:"Работа по найму vs свой путь — моя логика в 18 лет", done:false},
+  {t:"Мне 18 и я не иду в университет — вот моя логика", done:false},
+  {t:"Что не так со стандартным сценарием жизни — работа, ипотека, пенсия", done:false},
+  {t:"Финансовая независимость в 18 — это реально или самообман", done:false},
+  {t:"Почему я трачу время на изучение ИИ вместо того чтобы устроиться на работу", done:false},
+  {t:"Навыки которые я бы изучил если бы начинал заново с нуля", done:false},
+  {t:"Что тренировки дали мне кроме физики", done:false},
+  {t:"Утро которое я выстраивал месяц — вот что осталось", done:false},
+  {t:"Дисциплина не про силу воли — про систему. Вот моя", done:false},
+  {t:"Почему я не слушаю людей которые не занимаются спортом когда речь про продуктивность", done:false},
+  {t:"Люди говорят мне что я не дойду до миллиона — вот мой ответ", done:false},
+  {t:"Почему я показываю провалы так же как успехи", done:false},
+  {t:"День 10 — что уже изменилось и что бесит", done:false},
+  {t:"День 30 — честная статистика: просмотры, подписчики, выводы", done:false},
+  {t:"Самый сложный день в челлендже 100 рилсов — вот что произошло", done:false},
+  {t:"Что я понял про контент за первые 3 недели съёмки", done:false},
+  {t:"Первый отказ от потенциального клиента — вот что произошло и что понял", done:false},
+  {t:"Инструменты ИИ которые изучаю прямо сейчас и зачем", done:false},
+  {t:"Как я распродаю остатки товара и закрываю эту страницу", done:false},
+  {t:"Сколько часов в день я реально трачу на развитие — честный хронометраж", done:false},
+  {t:"Мой стек: телефон, ноутбук, микрофон — как работаю с минимальным оборудованием", done:false},
+  {t:"Что я читаю и смотрю прямо сейчас и почему", done:false},
+  {t:"500 дней до миллиона — стартовая точка и план", done:false},
+  {t:"Апдейт капитала день 30 — сколько сейчас и откуда взялось", done:false},
+  {t:"30 дней тренировок — что поменялось в голове", done:false},
+  {t:"Почему я выбрал услуги а не продукт как первый источник дохода", done:false},
+  {t:"Как найти первого клиента когда нет кейсов и портфолио", done:false},
+  {t:"Что такое n8n и зачем это бизнесу — объясняю на пальцах", done:false},
+  {t:"Первый раз предложил услуги — вот как это было", done:false},
+  {t:"Как я ищу клиентов — показываю процесс изнутри", done:false},
+  {t:"Холодные сообщения — страшно, но вот что происходит", done:false},
+  {t:"Почему малый бизнес не использует ИИ — и как я на этом зарабатываю", done:false},
+  {t:"Что я автоматизировал в своей жизни с помощью ИИ", done:false},
+  {t:"Один день полностью без телефона — эксперимент", done:false},
+  {t:"Почему в 18 лет важно рисковать — и что значит реальный риск", done:false},
+  {t:"Сравниваю себя год назад и сейчас — что изменилось", done:false},
+  {t:"Что мне говорят родители про мой путь — честно", done:false},
+  {t:"Друзья которые поддерживают и друзья которые крутят пальцем у виска", done:false},
+  {t:"Почему я не праздную маленькие победы — и зря", done:false},
+  {t:"Апдейт дашборда день 50 — разбор каждой шкалы", done:false},
+  {t:"Что изменилось за 50 дней публичного пути", done:false},
+  {t:"Первый кейс с клиентом — полная история", done:false},
+  {t:"Сколько стоят мои услуги и как я пришёл к этой цифре", done:false},
+  {t:"Страх назвать цену — как я с ним работаю", done:false},
+  {t:"Что такое ИИ-агент и чем он отличается от обычного бота", done:false},
+  {t:"Показываю свой рабочий стол — как выглядит процесс изнутри", done:false},
+  {t:"Один инструмент ИИ который изменил мою продуктивность", done:false},
+  {t:"Почему я веду три платформы одновременно и не схожу с ума", done:false},
+  {t:"Контент который снимать страшно — и почему именно его надо снимать", done:false},
+  {t:"День когда всё пошло не так — вот что произошло", done:false},
+  {t:"Почему я не бросил когда захотелось", done:false},
+  {t:"Что я думаю о деньгах сейчас vs год назад", done:false},
+  {t:"Инвестиции в 18 лет — стоит ли и куда", done:false},
+  {t:"Как спорт и бизнес связаны между собой — моя теория", done:false},
+  {t:"Прогресс в зале за 3 месяца — цифры и ощущения", done:false},
+  {t:"Один совет самому себе год назад", done:false},
+  {t:"Что я никогда не сделаю в бизнесе после опыта с товаркой", done:false},
+  {t:"Как выглядит моя система планирования — показываю", done:false},
+  {t:"Апдейт капитала день 50 — честные цифры", done:false},
+  {t:"Середина пути к миллиону — что работает а что нет", done:false},
+  {t:"Первая 1000 подписчиков — как это произошло и что почувствовал", done:false},
+  {t:"Что дала публичность которой я не ожидал", done:false},
+  {t:"Как изменился страх общественного мнения за 60 дней", done:false},
+  {t:"Ютуб vs инстаграм vs телеграм — где реально растёт аудитория", done:false},
+  {t:"Сколько времени уходит на контент в день — честный хронометраж", done:false},
+  {t:"Что я бы сделал иначе если бы начинал 100 дней заново", done:false},
+  {t:"Лучший ролик за 100 дней — почему он выстрелил", done:false},
+  {t:"Худший ролик за 100 дней — что пошло не так", done:false},
+  {t:"Что думает аудитория о моём пути — разбор комментариев", done:false},
+  {t:"Апдейт дашборда день 100 — разбор каждой шкалы", done:false},
+  {t:"100 рилсов готово — цифры, деньги, выводы", done:false},
+  {t:"Что изменилось в голове за 100 дней публичного пути", done:false},
+  {t:"Капитал на день 100 — где я относительно цели", done:false},
+  {t:"Главный урок первых 100 дней", done:false},
+  {t:"Что дальше — план на следующие 100 дней", done:false},
+  {t:"Человек который вдохновил меня больше всего за эти 100 дней", done:false},
+  {t:"Письмо себе через 400 дней — читаю вслух", done:false},
+  {t:"Анонс следующей главы — что меняется", done:false},
+  {t:"День 100 — просто поблагодарить тех кто смотрел с самого начала", done:false},
+];
+
+// ── RENDER SYSTEM ──
+function renderSys() {
+  const el = document.getElementById('sys-list');
+  el.innerHTML = sysData.map((s, i) => `
+    <div class="sys-item">
+      <div class="sys-header">
+        <div class="sys-num">${s.num}</div>
+        <div><div class="sys-title">${s.title}</div></div>
+      </div>
+      <div class="sys-body">${s.body}</div>
+      <textarea class="sys-notes" placeholder="> заметки..." rows="1" oninput="autoResizeDoc(this)"></textarea>
+    </div>
+  `).join('');
+}
+
+function autoResizeDoc(el) {
+  el.style.height = 'auto';
+  el.style.height = el.scrollHeight + 'px';
+}
+
+// ── RENDER BANK ──
+function renderBank() {
+  const total = bankTopics.length;
+  const done = bankTopics.filter(t => t.done).length;
+  document.getElementById('bTotal').textContent = total;
+  document.getElementById('bDone').textContent = done;
+  document.getElementById('bLeft').textContent = total - done;
+
+  document.getElementById('bank-list').innerHTML = bankTopics.map((t, i) => {
+    const n = String(i + 1).padStart(2, '0');
+    return `<div class="bank-topic${t.done ? ' done' : ''}">
+      <div class="bt-num">${n}</div>
+      <div class="bt-text">${t.t}</div>
+      <button class="bt-check" onclick="bankToggle(${i});event.stopPropagation()">✓</button>
+      <button class="bt-del" onclick="bankDel(${i});event.stopPropagation()">×</button>
+    </div>`;
+  }).join('');
+}
+
+function bankToggle(i) {
+  bankTopics[i].done = !bankTopics[i].done;
+  renderBank();
+}
+
+function bankDel(i) {
+  bankTopics.splice(i, 1);
+  renderBank();
+}
+
+function bankAdd(e) {
+  if (e.key !== 'Enter') return;
+  const text = e.target.value.trim();
+  if (!text) return;
+  bankTopics.push({t: text, done: false});
+  e.target.value = '';
+  renderBank();
+  document.getElementById('bank-add-input').focus();
+}
+
+// Init master doc
+renderSys();
+renderBank();
+</script>
 
 <script>
 // ── STATE ──
