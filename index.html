@@ -1783,7 +1783,7 @@ const sysData = [
   { num: '09', title: 'МОНТАЖ', body: 'CapCut, субтитры, лёгкая музыка, иногда приколы.\nСверху главная суть рилса написана.\nХук вначале важен — работать над ним.' },
 ];
 
-const bankTopics = [
+const DEFAULT_BANK = [
   {t:"Кто я и куда иду — день 3, публичный старт", done:true},
   {t:"Бот который я собрал сам — день 4", done:true},
   {t:"Почему я закрываю товарку — без прикрас", done:false},
@@ -1886,6 +1886,10 @@ const bankTopics = [
   {t:"День 100 — просто поблагодарить тех кто смотрел с самого начала", done:false},
 ];
 
+// bankTopics — живой массив, берётся из S.bank (сохраняется в Supabase + localStorage)
+// Инициализируется после load() в initUI
+let bankTopics = [];
+
 // ── RENDER SYSTEM ──
 function renderSys() {
   const el = document.getElementById('sys-list');
@@ -1965,7 +1969,13 @@ function bankDrop(e, targetIdx) {
   const moved = bankTopics.splice(dragSrcIdx, 1)[0];
   bankTopics.splice(targetIdx, 0, moved);
   dragSrcIdx = null;
+  saveBank();
   renderBank();
+}
+
+function saveBank() {
+  S.bank = bankTopics.map(t => ({t: t.t, done: t.done}));
+  save(); // вызывает localStorage + Supabase через debounce
 }
 
 function bankDragEnd(e) {
@@ -1978,11 +1988,13 @@ function bankDragEnd(e) {
 
 function bankToggle(i) {
   bankTopics[i].done = !bankTopics[i].done;
+  saveBank();
   renderBank();
 }
 
 function bankDel(i) {
   bankTopics.splice(i, 1);
+  saveBank();
   renderBank();
 }
 
@@ -1992,13 +2004,12 @@ function bankAdd(e) {
   if (!text) return;
   bankTopics.push({t: text, done: false});
   e.target.value = '';
+  saveBank();
   renderBank();
   document.getElementById('bank-add-input').focus();
 }
 
-// Init master doc
-renderSys();
-renderBank();
+// Master doc init handled inside initUI after data loads
 </script>
 
 <script>
@@ -2200,13 +2211,24 @@ function renderAll() {
 async function initUI() {
   load(); // сначала локально (быстро)
   checkDailyReset();
+  // Загружаем банк тем из сохранения или берём дефолтные
+  bankTopics.length = 0;
+  const saved = S.bank && S.bank.length ? S.bank : DEFAULT_BANK;
+  saved.forEach(t => bankTopics.push({t: t.t, done: !!t.done}));
   renderAll(); // показываем локальные данные сразу
+  renderSys();
+  renderBank();
 
   // Грузим облако и обновляем UI если есть свежие данные
   const loaded = await cloudLoad();
   if (loaded) {
-    checkDailyReset(); // проверяем сброс уже с облачными данными
+    checkDailyReset();
+    // Обновляем банк из облака
+    bankTopics.length = 0;
+    const cloudSaved = S.bank && S.bank.length ? S.bank : DEFAULT_BANK;
+    cloudSaved.forEach(t => bankTopics.push({t: t.t, done: !!t.done}));
     renderAll();
+    renderBank();
   }
 
   function updateDays() {
